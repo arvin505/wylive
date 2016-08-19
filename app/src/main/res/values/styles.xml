@@ -1,0 +1,17 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!--直播设置页面pop风格-->
+    <style name="anim_pop_gametype">
+        <item name="android:windowEnterAnimation">@anim/anim_pop_gametype_show</item>
+        <item name="android:windowExitAnimation">@anim/anim_pop_gametype_close</item>
+    </style>
+
+</resources>

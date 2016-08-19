@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/orange</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+
+    <color name="white">#fff</color>
+    <color name="textColorGray">#666666</color>
+    <color name="transparent">#00000000</color>
+    <color name="shop_font_black">#333333</color>
+
+    <color name="orange">#ff6600</color>
+    <color name="light_orange">#ff5f00</color>
+
+    <color name="view_line">#e4e4e4</color>
+    <color name="line">#b3b3b3</color>
+    <color name="colorActionBarSelected">#ff5f00</color>
+    <color name="mobile_login_gray">#f1f1f1</color>
+    <color name="c7_gray">#c7c7c7</color>
+    <color name="shop_splite_line">#e4e4e4</color>
+    <color name="transparent_40">#40000000</color>
+    <color name="shop_pay_splite_line">#adadad</color>
+    <color name="gray">@android:color/darker_gray</color>
+</resources>

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">WyLive</string>
+
+    <!-- app bar-->
+    <string name="bar_match">赛事</string>
+    <string name="bar_information">资讯</string>
+    <string name="bar_find">发现</string>
+    <string name="bar_mine">我的</string>
+</resources>
