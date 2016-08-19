@@ -2,6 +2,7 @@ package com.miqtech.wymaster.wylive.proxy;
 
 import com.miqtech.wymaster.wylive.WYLiveApp;
 import com.miqtech.wymaster.wylive.entity.User;
+import com.miqtech.wymaster.wylive.utils.CloseUtil;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -21,34 +22,52 @@ public class UserProxy {
     private final static String CACHE_DIR = WYLiveApp.getContext().getCacheDir().getAbsolutePath();
 
     public static User getUser() {
-        mUser = readUser();
+        if (mUser == null)
+            mUser = readUser();
+        if (mUser != null) {
+            UserEventDispatcher.setUserState(new UserLoginState());
+        } else {
+            UserEventDispatcher.setUserState(new UserLogoutState());
+        }
         return mUser;
     }
 
     public static void setUser(User user) {
         mUser = user;
+        if (mUser == null) {
+            UserEventDispatcher.setUserState(new UserLogoutState());
+        }
         writeUser(user);
     }
 
     private static void writeUser(User user) {
-
+        FileOutputStream fos = null;
+        ObjectOutputStream oos = null;
         try {
-            FileOutputStream fos = new FileOutputStream(CACHE_DIR + "/USER_CACHE");
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            fos = new FileOutputStream(CACHE_DIR + "/USER_CACHE");
+            oos = new ObjectOutputStream(fos);
             oos.writeObject(user);
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            CloseUtil.close(oos);
+            CloseUtil.close(fos);
         }
 
     }
 
     private static User readUser() {
+        FileInputStream fis = null;
+        ObjectInputStream ois = null;
         try {
-            FileInputStream fis = new FileInputStream(CACHE_DIR + "/USER_CACHE");
-            ObjectInputStream ois = new ObjectInputStream(fis);
+            fis = new FileInputStream(CACHE_DIR + "/USER_CACHE");
+            ois = new ObjectInputStream(fis);
             return (User) ois.readObject();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            CloseUtil.close(ois);
+            CloseUtil.close(fis);
         }
         return null;
     }
