@@ -2,6 +2,7 @@ package com.miqtech.wymaster.wylive.base;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,8 +11,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
+import com.miqtech.wymaster.wylive.R;
 import com.miqtech.wymaster.wylive.annotations.LayoutId;
+import com.miqtech.wymaster.wylive.annotations.Title;
 import com.miqtech.wymaster.wylive.constants.API;
 import com.miqtech.wymaster.wylive.http.Requestutil;
 import com.miqtech.wymaster.wylive.http.ResponseListener;
@@ -21,6 +26,7 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -36,6 +42,14 @@ public abstract class BaseFragment extends Fragment implements ResponseListener 
     protected Activity mActivity;
     protected View convertView;
 
+    @BindView(R.id.ibLeft)
+    @Nullable
+    ImageButton btnBack;
+    @BindView(R.id.tvLeftTitle)
+    @Nullable
+    TextView tvLeftTitle;
+
+
     @Override
     public final void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,13 +64,15 @@ public abstract class BaseFragment extends Fragment implements ResponseListener 
                 convertView = inflater.inflate(layoutId, container, false);
             }
         }
-        ButterKnife.bind(convertView);
+        ButterKnife.bind(this,convertView);
+
         return convertView;
     }
 
     @Override
     public final void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setTitle("");
         initViews(view, savedInstanceState);
     }
 
@@ -72,10 +88,6 @@ public abstract class BaseFragment extends Fragment implements ResponseListener 
     public void onDestroy() {
         super.onDestroy();
         Requestutil.remove(TAG);
-    }
-
-    protected void setTitle(String title) {
-
     }
 
     protected void sendHttpRequest(String url, Map<String, String> params) {
@@ -122,6 +134,31 @@ public abstract class BaseFragment extends Fragment implements ResponseListener 
             intent.putExtras(bundle);
         }
         startActivityForResult(intent, requestCode);
+    }
+
+    /**
+     * 设置标题
+     * 在activity中默认使用注解的形式
+     * 对于有些界面可能需要动态设置标题（如资讯详情等）
+     * 提供一个protected 方法
+     *
+     * @param customTitle 标题
+     */
+    protected void setTitle(String customTitle) {
+        if (tvLeftTitle == null) return;
+        if (getClass().getAnnotation(Title.class) != null) {
+            int titleId = getClass().getAnnotation(Title.class).titleId();
+            String title = getClass().getAnnotation(Title.class).title();
+            if (titleId != -1) {
+                tvLeftTitle.setText(getResources().getText(titleId));
+            }
+            if (!title.equals("")) {
+                tvLeftTitle.setText(title);
+            }
+        }
+        if (!customTitle.equals("")) {
+            tvLeftTitle.setText(customTitle);
+        }
     }
 
     @UiThread

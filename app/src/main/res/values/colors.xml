@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/orange</color>
+    <color name="colorPrimary">#1c232d</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
@@ -22,4 +22,11 @@
     <color name="transparent_40">#40000000</color>
     <color name="shop_pay_splite_line">#adadad</color>
     <color name="gray">@android:color/darker_gray</color>
+
+    <color name="live_category_item_bg">#161E29</color>
+    <color name="live_category_bg">#141A20</color>
+
+    <color name="bar_text_selected">#ff3366</color>
+    <color name="bar_text_unselected">#cecfd2</color>
+
 </resources>

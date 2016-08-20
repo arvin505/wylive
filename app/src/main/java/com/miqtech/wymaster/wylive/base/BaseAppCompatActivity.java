@@ -1,6 +1,10 @@
 package com.miqtech.wymaster.wylive.base;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
@@ -8,17 +12,21 @@ import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.miqtech.wymaster.wylive.MainActivity;
 import com.miqtech.wymaster.wylive.R;
 import com.miqtech.wymaster.wylive.annotations.LayoutId;
 import com.miqtech.wymaster.wylive.annotations.Title;
 import com.miqtech.wymaster.wylive.constants.API;
+import com.miqtech.wymaster.wylive.constants.Constants;
 import com.miqtech.wymaster.wylive.http.Requestutil;
 import com.miqtech.wymaster.wylive.http.ResponseListener;
 import com.miqtech.wymaster.wylive.utils.L;
 import com.miqtech.wymaster.wylive.utils.ToastUtils;
+import com.networkbench.agent.impl.NBSAppAgent;
 
 
 import org.json.JSONException;
@@ -75,6 +83,13 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity implements
     @Override
     public final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            //透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //透明导航栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
+        
         int resId = getClass().getAnnotation(LayoutId.class).value();
         setContentView(resId);
         ButterKnife.bind(this);

@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+
+    android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,14 +20,13 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <include
-                android:id="@+id/rl_main_header"
-                layout="@layout/layout_main_header" />
 
             <FrameLayout
                 android:id="@+id/fragment_content"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent">
+
+
                 <ImageView
                     android:id="@+id/img"
                     android:layout_width="match_parent"
@@ -38,5 +41,6 @@
             android:layout_height="49dp"
             android:layout_alignParentBottom="true" />
     </LinearLayout>
+
 
 </RelativeLayout>

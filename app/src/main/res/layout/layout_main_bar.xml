@@ -7,16 +7,12 @@
     android:gravity="center_vertical"
     android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/line" />
 
     <LinearLayout
         android:id="@+id/ll_main_bar"
         android:layout_width="match_parent"
         android:layout_height="49dp"
-        android:background="#fcffffff"
+        android:background="@color/colorPrimary"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -26,11 +22,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawablePadding="3dp"
-            android:drawableTop="@drawable/icon_bar_match_selected"
+            android:drawableTop="@drawable/icon_bar_main_selected"
             android:gravity="center"
-            android:text="@string/bar_match"
+            android:text="@string/bar_main"
 
-            android:textColor="@color/colorActionBarSelected"
+            android:textColor="@color/bar_text_selected"
             android:textSize="11sp" />
 
         <TextView
@@ -39,9 +35,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawablePadding="3dp"
-            android:drawableTop="@drawable/icon_bar_info_unselected"
+            android:drawableTop="@drawable/icon_bar_category_unselected"
             android:gravity="center"
-            android:text="@string/bar_information"
+            android:text="@string/bar_category"
             android:textColor="@color/textColorGray"
             android:textSize="11sp" />
 
@@ -51,9 +47,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawablePadding="3dp"
-            android:drawableTop="@drawable/icon_bar_find_unselected"
+            android:drawableTop="@drawable/icon_bar_attention_unselected"
             android:gravity="center"
-            android:text="@string/bar_find"
+            android:text="@string/bar_attention"
             android:textColor="@color/textColorGray"
             android:textSize="11sp" />
 
@@ -63,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawablePadding="3dp"
-            android:drawableTop="@drawable/icon_bar_info_unselected"
+            android:drawableTop="@drawable/icon_bar_category_unselected"
             android:gravity="center"
             android:text="@string/bar_mine"
 

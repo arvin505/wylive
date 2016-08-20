@@ -1,9 +1,24 @@
 <resources>
-    <string name="app_name">WyLive</string>
+    <string name="app_name">娱儿TV</string>
 
     <!-- app bar-->
-    <string name="bar_match">赛事</string>
-    <string name="bar_information">资讯</string>
-    <string name="bar_find">发现</string>
+    <string name="bar_main">首页</string>
+    <string name="bar_category">分类</string>
+    <string name="bar_attention">关注</string>
     <string name="bar_mine">我的</string>
+
+    <!--下拉刷新-->
+    <string name="pr_pull_to_refresh_pull_label">下拉刷新</string>
+    <string name="pr_pull_up_to_refresh_pull_label">上拉加载更多</string>
+    <string name="pull_up_to_refresh_release_label">松开加载</string>
+    <string name="pull_up_to_refresh_refreshing_label">加载中&#8230;</string>
+    <string name="pull_to_refresh_pull_label">下拉刷新</string>
+    <string name="pr_pull_to_refresh_release_label">松开后刷新</string>
+    <string name="pr_pull_to_refresh_refreshing_label">刷新中&#8230;</string>
+    <string name="pull_up_to_refresh_pull_label">上拉加载更多</string>
+    <string name="pull_up_last_refresh">上次加载：</string>
+    <string name="pull_to_refresh_from_bottom_pull_label">@string/pr_pull_to_refresh_pull_label</string>
+    <string name="pr_pull_to_refresh_from_bottom_release_label">松开即可加载</string>
+    <string name="pr_pull_to_refresh_from_bottom_refreshing_label">加载中&#8230;</string>
+    <string name="pr_pull_to_refresh_refresh_lable">正在加载中</string>
 </resources>
