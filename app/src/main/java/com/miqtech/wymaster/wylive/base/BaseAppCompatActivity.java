@@ -1,5 +1,6 @@
 package com.miqtech.wymaster.wylive.base;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -11,22 +12,23 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.miqtech.wymaster.wylive.MainActivity;
 import com.miqtech.wymaster.wylive.R;
 import com.miqtech.wymaster.wylive.annotations.LayoutId;
 import com.miqtech.wymaster.wylive.annotations.Title;
+import com.miqtech.wymaster.wylive.common.SystemBarTintManager;
 import com.miqtech.wymaster.wylive.constants.API;
-import com.miqtech.wymaster.wylive.constants.Constants;
 import com.miqtech.wymaster.wylive.http.Requestutil;
 import com.miqtech.wymaster.wylive.http.ResponseListener;
 import com.miqtech.wymaster.wylive.utils.L;
 import com.miqtech.wymaster.wylive.utils.ToastUtils;
-import com.networkbench.agent.impl.NBSAppAgent;
 
 
 import org.json.JSONException;
@@ -77,25 +79,43 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity implements
     @BindView(R.id.tvLeftTitle)
     @Nullable
     TextView tvLeftTitle;
+    @Nullable
+    @BindView(R.id.errorPage)
+    LinearLayout errorPage;
 
     protected final String TAG = getClass().getSimpleName();
+    private SystemBarTintManager mTintManager;
 
     @Override
     public final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            //透明状态栏
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            //透明导航栏
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            setTranslucentStatus(true);
         }
-        
+        mTintManager = new SystemBarTintManager(this);
+        mTintManager.setStatusBarTintEnabled(true);
+        mTintManager.setStatusBarTintResource(R.color.main);
+
         int resId = getClass().getAnnotation(LayoutId.class).value();
         setContentView(resId);
         ButterKnife.bind(this);
         setTitle("");
         showBack();
         initViews(savedInstanceState);
+    }
+
+    @TargetApi(19)
+
+    protected void setTranslucentStatus(boolean on) {
+        Window win = getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        if (on) {
+            winParams.flags |= bits;
+        } else {
+            winParams.flags &= ~bits;
+        }
+        win.setAttributes(winParams);
     }
 
     /**
@@ -225,28 +245,24 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity implements
 
     @Override
     public void onSuccess(JSONObject object, String method) {
-       /* L.e(TAG, "----------success----   ");
-        Gson gson = new Gson();
-        try {
-            User user = gson.fromJson(object.getJSONObject("object").toString(), User.class);
-            L.e(TAG, "--------------   " + user.toString());
-            UserProxy.setUser(user);
-            User user2 = UserProxy.getUser();
-            L.e(TAG, "--------user2------   " + user2.toString());
-            user.setId("12121");
-            UserProxy.setUser(user);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }*/
+        L.e(TAG, "-------------------------------------onSuccess----------------------------------------\n"
+                + "--------------------------------------" + method + "---------------------------------------\n"
+                + "data : " + object.toString());
+
     }
 
     @Override
     public void onError(String errMsg, String method) {
-
+        L.e(TAG, "---------------------------------------onError-------------------------------\n"
+                + "-------------------------------------" + method + "---------------------------------\n"
+                + "data : " + errMsg.toString());
     }
 
     @Override
     public void onFaild(JSONObject object, String method) {
+        L.e(TAG, "-------------------------------onFaild------------------------------\n"
+                + "----------------------------" + method + "----------------------------------\n"
+                + "data : " + object.toString());
         try {
             if (object.getInt("code") == -1) {
                 showToast(object.getString("result"));
@@ -283,5 +299,10 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity implements
             intent.putExtras(bundle);
         }
         startActivityForResult(intent, requestCode);
+    }
+
+    public final void showErrorView(boolean show) {
+        if (errorPage == null) return;
+        errorPage.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 }

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="75dp"
+    android:background="@drawable/selector_attention_anchor_item"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingBottom="12.5dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="12.5dp">
+
+    <com.miqtech.wymaster.wylive.widget.CircleImageView
+        android:id="@+id/img_anchor_header"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/default_head" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_anchor_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="光头大哥哥"
+            android:textColor="@color/attention_item_title"
+            android:textSize="13sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="房间"
+                    android:textColor="@color/attention_item_flag"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1dp"
+                    android:text="168546"
+                    android:id="@+id/tv_anchor_room"
+                    android:textColor="@color/attention_item_count"
+                    android:textSize="11sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="粉丝"
+                    android:textColor="@color/attention_item_flag"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/tv_anchor_fans"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1dp"
+                    android:text="1645"
+                    android:textColor="@color/attention_item_count"
+                    android:textSize="11sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="15dp"
+        android:background="@drawable/bg_rectangle_corner_solid_03"
+        android:gravity="center"
+        android:text="直播中"
+        android:id="@+id/tv_anchor_state"
+        android:textColor="@color/white"
+        android:textSize="11sp" />
+
+</LinearLayout>

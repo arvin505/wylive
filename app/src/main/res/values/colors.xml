@@ -4,11 +4,13 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+ <color name="main">#1c232d</color>
 
     <color name="white">#fff</color>
     <color name="textColorGray">#666666</color>
     <color name="transparent">#00000000</color>
     <color name="shop_font_black">#333333</color>
+    <color name="shop_buy_record_gray">#9a9a9a</color>
 
     <color name="orange">#ff6600</color>
     <color name="light_orange">#ff5f00</color>
@@ -23,10 +25,27 @@
     <color name="shop_pay_splite_line">#adadad</color>
     <color name="gray">@android:color/darker_gray</color>
 
-    <color name="live_category_item_bg">#161E29</color>
+    <color name="live_category_item_bg">#161e29</color>
     <color name="live_category_bg">#141A20</color>
+    <color name="hall_live_item_bg">#1A2129</color>
+    <color name="hall_game_bg">#CC171A21</color>
+    <color name="hall_font_gray">#8B8E92</color>
+    <color name="video_font_white">#D1D4D8</color>
+    <color name="video_font_gray">#9DA4AD</color>
+     <color name="video_font_deep_gray">#626F7E</color>
 
     <color name="bar_text_selected">#ff3366</color>
     <color name="bar_text_unselected">#cecfd2</color>
+   
+   <!--分类-->
+   <color name="category_item_title">#98A9BB</color>
+   <color name="category_item_count">#465667</color>
+
+    <color name="attention_item_anchor_bg">#1A2129</color>
+    <color name="attention_item_title">#D1D4D8</color>
+    <color name="attention_item_count">#33ffff</color>
+    <color name="attention_item_flag">#626F7E</color>
+
+    <color name="anchor_state_offline">#445162</color>
 
 </resources>

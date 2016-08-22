@@ -42,5 +42,8 @@
             android:layout_alignParentBottom="true" />
     </LinearLayout>
 
+    <include
+        layout="@layout/layout_exception_page"
+        android:visibility="gone" />
 
 </RelativeLayout>

@@ -30,4 +30,10 @@ public class API {
      * 请求直播
      */
     public static final String LIVE_REQUEST = "v4/live/startLive";
+
+
+    /**
+     * 观看历史
+     */
+    public static final String BROWSE_HISTORY = "v4/live/browseHistory";
 }

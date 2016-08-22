@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/transparent"
     android:gravity="center"
+    android:id="@+id/errorPage"
     android:orientation="vertical">
 
     <ImageView

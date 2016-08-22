@@ -2,15 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/live_category_bg"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_include_header" />
-
     <com.miqtech.wymaster.wylive.widget.pullToRefresh.PullToRefreshRecyclerView
-        android:paddingLeft="7dp"
-        android:paddingRight="7dp"
-        android:id="@+id/prCategory"
+        android:id="@+id/ptr_attention_anchor"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

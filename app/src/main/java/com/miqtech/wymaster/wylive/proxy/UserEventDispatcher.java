@@ -2,6 +2,9 @@ package com.miqtech.wymaster.wylive.proxy;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
+
+import com.miqtech.wymaster.wylive.base.BaseFragment;
 
 /**
  * Created by arvin on 2016/8/19.
@@ -24,7 +27,11 @@ public class UserEventDispatcher {
      * @param context 执行用户行为的上下文
      * @param intent  跳转intent
      */
-    public void jump(Context context, Intent intent) {
+    public static void jump(Context context, Intent intent) {
         mUserState.jump(context, intent);
+    }
+
+    public static void getAttentionAnchor(BaseFragment fragment){
+        mUserState.getAttentionAnchor(fragment);
     }
 }

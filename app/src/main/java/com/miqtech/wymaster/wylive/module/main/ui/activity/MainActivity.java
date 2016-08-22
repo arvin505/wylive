@@ -1,28 +1,25 @@
-package com.miqtech.wymaster.wylive;
+package com.miqtech.wymaster.wylive.module.main.ui.activity;
 
-import android.annotation.TargetApi;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.miqtech.wymaster.wylive.R;
 import com.miqtech.wymaster.wylive.annotations.LayoutId;
 import com.miqtech.wymaster.wylive.base.BaseAppCompatActivity;
 import com.miqtech.wymaster.wylive.constants.API;
 import com.miqtech.wymaster.wylive.entity.User;
+import com.miqtech.wymaster.wylive.module.main.ui.fragment.FragmentAttention;
 import com.miqtech.wymaster.wylive.module.main.ui.fragment.FragmentLiveCategory;
 import com.miqtech.wymaster.wylive.module.screenrecorder.ui.ScreenRecorderActivity;
 import com.miqtech.wymaster.wylive.proxy.UserProxy;
 import com.miqtech.wymaster.wylive.utils.L;
-import com.miqtech.wymaster.wylive.common.SystemBarTintManager;
 import com.miqtech.wymaster.wylive.utils.imageloader.AsyncImage;
 
 import org.json.JSONException;
@@ -53,7 +50,7 @@ public class MainActivity extends BaseAppCompatActivity {
     private int[] barUnselected = new int[]{R.drawable.icon_bar_main_unselected,
             R.drawable.icon_bar_category_unselected, R.drawable.icon_bar_attention_unselected, R.drawable.icon_bar_mine_unselected};
 
-    private Class[] classes = {FragmentLiveCategory.class, FragmentLiveCategory.class, FragmentLiveCategory.class, FragmentLiveCategory.class};
+    private Class[] classes = {FragmentLiveCategory.class, FragmentLiveCategory.class, FragmentAttention.class, FragmentLiveCategory.class};
     /*@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,18 +58,12 @@ public class MainActivity extends BaseAppCompatActivity {
             NBSAppAgent.setLicenseKey(Constants.TINGYUN_APP_KEY).withLocationServiceEnabled(true).start(this.getApplicationContext());
         }
     }*/
-    private SystemBarTintManager mTintManager;
+
     private List<Fragment> fragmentList;
     int mSelected = 0;
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            setTranslucentStatus(true);
-        }
-        mTintManager = new SystemBarTintManager(this);
-        mTintManager.setStatusBarTintEnabled(true);
-        mTintManager.setStatusBarTintResource(R.color.gray);
         fragmentList = new ArrayList<>();
         for (int i = 0; i < classes.length; i++) {
             fragmentList.add(null);
@@ -91,19 +82,6 @@ public class MainActivity extends BaseAppCompatActivity {
         AsyncImage.displayImage("uploads/2016/07/26/35e53c1d42504def8144860732c7a010.jpg", img);
 
 
-    }
-
-    @TargetApi(19)
-    protected void setTranslucentStatus(boolean on) {
-        Window win = getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        if (on) {
-            winParams.flags |= bits;
-        } else {
-            winParams.flags &= ~bits;
-        }
-        win.setAttributes(winParams);
     }
 
     @OnClick({ R.id.tv_main_bar_match, R.id.tv_main_bar_information, R.id.tv_main_bar_find, R.id.tv_main_bar_mine})
@@ -164,12 +142,7 @@ public class MainActivity extends BaseAppCompatActivity {
             child.setCompoundDrawables(null, icon, null, null);
             child.setTextColor(textColor);
         }
-
-        if (index == 0) {
-            // rlMainHeader.setVisibility(View.VISIBLE);
-        } else {
-            //  rlMainHeader.setVisibility(View.GONE);
-        }
+        showErrorView(false);
     }
 
     public void setSelectItem(int position) {

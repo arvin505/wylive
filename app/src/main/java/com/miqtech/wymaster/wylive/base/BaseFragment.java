@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.miqtech.wymaster.wylive.annotations.Title;
 import com.miqtech.wymaster.wylive.constants.API;
 import com.miqtech.wymaster.wylive.http.Requestutil;
 import com.miqtech.wymaster.wylive.http.ResponseListener;
+import com.miqtech.wymaster.wylive.utils.L;
 import com.miqtech.wymaster.wylive.utils.ToastUtils;
 
 import org.json.JSONObject;
@@ -39,7 +41,7 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseFragment extends Fragment implements ResponseListener {
     protected String TAG = getClass().getSimpleName();
-    protected Activity mActivity;
+    protected BaseAppCompatActivity mActivity;
     protected View convertView;
 
     @BindView(R.id.ibLeft)
@@ -53,7 +55,7 @@ public abstract class BaseFragment extends Fragment implements ResponseListener 
     @Override
     public final void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mActivity = getActivity();
+        mActivity = (BaseAppCompatActivity) getActivity();
     }
 
     @Override
@@ -64,7 +66,7 @@ public abstract class BaseFragment extends Fragment implements ResponseListener 
                 convertView = inflater.inflate(layoutId, container, false);
             }
         }
-        ButterKnife.bind(this,convertView);
+        ButterKnife.bind(this, convertView);
 
         return convertView;
     }
@@ -90,24 +92,31 @@ public abstract class BaseFragment extends Fragment implements ResponseListener 
         Requestutil.remove(TAG);
     }
 
-    protected void sendHttpRequest(String url, Map<String, String> params) {
+    public void sendHttpRequest(String url, Map<String, String> params) {
         StringBuilder builder = new StringBuilder(API.HOST);
         Requestutil.sendPostRequest(builder.append(url).toString(), params, url, this, TAG);
     }
 
     @Override
     public void onSuccess(JSONObject object, String method) {
+        L.e(TAG, "-------------------------------------onSuccess----------------------------------------\n"
+                + "--------------------------------------" + method + "---------------------------------------\n"
+                + "data : " + object.toString());
 
     }
 
     @Override
     public void onError(String errMsg, String method) {
-
+        L.e(TAG, "---------------------------------------onError-------------------------------\n"
+                + "-------------------------------------" + method + "---------------------------------\n"
+                + "data : " + errMsg.toString());
     }
 
     @Override
     public void onFaild(JSONObject object, String method) {
-
+        L.e(TAG, "-------------------------------onFaild------------------------------\n"
+                + "----------------------------" + method + "----------------------------------\n"
+                + "data : " + object.toString());
     }
 
     protected void jumpToActivity(@NonNull Class clazz) {
@@ -179,6 +188,10 @@ public abstract class BaseFragment extends Fragment implements ResponseListener 
     @UiThread
     protected void showToast(int resId, int duration) {
         ToastUtils.show(resId, duration);
+    }
+
+    public void showErrorView(boolean show) {
+        mActivity.showErrorView(show);
     }
 
 }
