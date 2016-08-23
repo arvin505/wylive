@@ -27,4 +27,6 @@
     <string name="hot_liveplay">热门直播</string>
     <string name="hot_video">精彩视频</string>
     <string name="more">更多</string>
+
+    <string name="search_hint">可搜索房间号、主播昵称、游戏名称</string>
 </resources>

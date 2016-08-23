@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
- <color name="main">#1c232d</color>
+    <color name="main">#1c232d</color>
 
     <color name="white">#fff</color>
     <color name="textColorGray">#666666</color>
@@ -36,10 +36,10 @@
 
     <color name="bar_text_selected">#ff3366</color>
     <color name="bar_text_unselected">#cecfd2</color>
-   
-   <!--分类-->
-   <color name="category_item_title">#98A9BB</color>
-   <color name="category_item_count">#465667</color>
+
+    <!--分类-->
+    <color name="category_item_title">#98A9BB</color>
+    <color name="category_item_count">#465667</color>
 
     <color name="attention_item_anchor_bg">#1A2129</color>
     <color name="attention_item_title">#D1D4D8</color>
@@ -47,5 +47,8 @@
     <color name="attention_item_flag">#626F7E</color>
 
     <color name="anchor_state_offline">#445162</color>
+    <!--首页-->
+    <color name="hall_title_font_white">#D0D1D2</color>
+    <color name="hall_title_more_font_gray">#8A8D90</color>
 
 </resources>

@@ -6,4 +6,10 @@
     <string name="pr_server_app_name" translatable="false">videoandroid</string>
     <string name="pr_server_yingbang_name" translatable="false">videoyingbang</string>
 
+
+    <string-array name="un_set_translucent_status">
+        <item>LoginActivity</item>
+    </string-array>
+
+
 </resources>

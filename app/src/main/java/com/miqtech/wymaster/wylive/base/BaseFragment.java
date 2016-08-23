@@ -109,7 +109,7 @@ public abstract class BaseFragment extends Fragment implements ResponseListener 
     public void onError(String errMsg, String method) {
         L.e(TAG, "---------------------------------------onError-------------------------------\n"
                 + "-------------------------------------" + method + "---------------------------------\n"
-                + "data : " + errMsg.toString());
+                + "data : " + errMsg);
     }
 
     @Override

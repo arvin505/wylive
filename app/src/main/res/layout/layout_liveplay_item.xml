@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/llLivePlayItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_live_black_bg">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       >
+        <com.miqtech.wymaster.wylive.widget.roundImageView.RoundedImageView
+            android:id="@+id/ivLivePlayPoster"
+            android:layout_width="match_parent"
+            android:layout_height="97dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_img"
+            app:riv_corner_radius_top_left="2.5dp"
+            app:riv_corner_radius_top_right="2.5dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:drawableLeft="@drawable/live_play_more"
+            android:drawablePadding="5dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="游戏名字"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_10"
+            android:background="@drawable/shape_game_bg"/>
+         </FrameLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlAnchorInfo"
+            android:layout_width="match_parent"
+            android:layout_height="41dp"
+            android:layout_marginTop="77dp"
+            android:layout_marginLeft="5dp">
+
+            <RelativeLayout
+                android:id="@+id/rlAnchorHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.miqtech.wymaster.wylive.widget.CircleImageView
+                    android:id="@+id/anchorHeader"
+                    android:layout_width="37dp"
+                    android:layout_height="37dp"
+                    android:src="@drawable/default_head"
+                    app:border_color="@color/white"
+                    app:border_width="2dp" />
+
+                <ImageView
+                    android:id="@+id/anchorSex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/anchorHeader"
+                    android:layout_alignRight="@id/anchorHeader"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/live_play_men" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvGameName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="4dp"
+                android:layout_marginBottom="4dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:layout_toRightOf="@id/rlAnchorHeader"
+                android:text="我爱我姥姥"
+                android:textColor="@color/hall_font_gray"
+                android:textSize="@dimen/text_size_10" />
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/tvContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rlAnchorInfo"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="12dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="类容"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/hall_title_font_white"
+            android:textSize="@dimen/text_size_12" />
+
+    </RelativeLayout>
+    <View
+        android:id="@+id/bottomView"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/live_category_bg"
+        android:visibility="visible"></View>
+
+</LinearLayout>

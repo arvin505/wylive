@@ -21,7 +21,7 @@ public class PreferenceUtils {
     }
 
     public static void putString(String key, String value) {
-        preferences.edit().putString(key, value);
+        preferences.edit().putString(key, value).commit();
     }
 
     public static String getString(String key) {
@@ -29,7 +29,7 @@ public class PreferenceUtils {
     }
 
     public static void putInt(String key, int value) {
-        preferences.edit().putInt(key, value);
+        preferences.edit().putInt(key, value).commit();
     }
 
     public static int getInt(String key) {
@@ -37,7 +37,7 @@ public class PreferenceUtils {
     }
 
     public static void putBoolean(String key, boolean value) {
-        preferences.edit().putBoolean(key, value);
+        preferences.edit().putBoolean(key, value).commit();
     }
 
     public static boolean getBoolean(String key) {
@@ -45,7 +45,7 @@ public class PreferenceUtils {
     }
 
     public static void putLong(String key, long value) {
-        preferences.edit().putLong(key, value);
+        preferences.edit().putLong(key, value).commit();
     }
 
     public static double getLong(String key) {

@@ -16,8 +16,10 @@ import com.miqtech.wymaster.wylive.base.BaseAppCompatActivity;
 import com.miqtech.wymaster.wylive.constants.API;
 import com.miqtech.wymaster.wylive.entity.User;
 import com.miqtech.wymaster.wylive.module.main.ui.fragment.FragmentAttention;
+import com.miqtech.wymaster.wylive.module.main.ui.fragment.FragmentHallCategory;
 import com.miqtech.wymaster.wylive.module.main.ui.fragment.FragmentLiveCategory;
-import com.miqtech.wymaster.wylive.module.screenrecorder.ui.ScreenRecorderActivity;
+
+import com.miqtech.wymaster.wylive.module.search.ui.activity.SearchActivity;
 import com.miqtech.wymaster.wylive.proxy.UserProxy;
 import com.miqtech.wymaster.wylive.utils.L;
 import com.miqtech.wymaster.wylive.utils.imageloader.AsyncImage;
@@ -39,9 +41,6 @@ public class MainActivity extends BaseAppCompatActivity {
 
     @BindView(R.id.ll_main_bar)
     LinearLayout llMainBar;
-
-
-
     @BindView(R.id.img)
     ImageView img;
 
@@ -50,7 +49,7 @@ public class MainActivity extends BaseAppCompatActivity {
     private int[] barUnselected = new int[]{R.drawable.icon_bar_main_unselected,
             R.drawable.icon_bar_category_unselected, R.drawable.icon_bar_attention_unselected, R.drawable.icon_bar_mine_unselected};
 
-    private Class[] classes = {FragmentLiveCategory.class, FragmentLiveCategory.class, FragmentAttention.class, FragmentLiveCategory.class};
+    private Class[] classes = {FragmentHallCategory.class, FragmentLiveCategory.class, FragmentAttention.class, FragmentLiveCategory.class};
     /*@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,11 +79,10 @@ public class MainActivity extends BaseAppCompatActivity {
         sendHttpRequest(API.LOGIN, params);
 
         AsyncImage.displayImage("uploads/2016/07/26/35e53c1d42504def8144860732c7a010.jpg", img);
-
-
+        setSelectItem(0);
     }
 
-    @OnClick({ R.id.tv_main_bar_match, R.id.tv_main_bar_information, R.id.tv_main_bar_find, R.id.tv_main_bar_mine})
+    @OnClick({R.id.tv_main_bar_match, R.id.tv_main_bar_information, R.id.tv_main_bar_find, R.id.tv_main_bar_mine})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tvCurrentCity:
@@ -104,9 +102,7 @@ public class MainActivity extends BaseAppCompatActivity {
                 break;
             case R.id.tv_main_bar_mine:
                 setSelectItem(3);
-                L.e(TAG, "---jump---11---");
-                jumpToActivity(ScreenRecorderActivity.class);
-                L.e(TAG, "---jump----22--");
+                jumpToActivity(SearchActivity.class);
                 break;
         }
     }
@@ -118,10 +114,6 @@ public class MainActivity extends BaseAppCompatActivity {
         Gson gson = new Gson();
         try {
             User user = gson.fromJson(object.getJSONObject("object").toString(), User.class);
-            L.e(TAG, "--------------   " + user.toString());
-            UserProxy.setUser(user);
-            User user2 = UserProxy.getUser();
-            L.e(TAG, "--------user2------   " + user2.toString());
             UserProxy.setUser(user);
         } catch (JSONException e) {
             e.printStackTrace();

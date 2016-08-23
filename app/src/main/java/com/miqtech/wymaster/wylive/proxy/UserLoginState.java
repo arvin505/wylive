@@ -16,6 +16,7 @@ import java.util.Map;
  * 已登录状态，
  */
 public class UserLoginState implements UserState {
+
     @Override
     public void jump(Context context, Intent intent) {
         // FIXME: 2016/8/19

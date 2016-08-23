@@ -2,9 +2,6 @@ package com.miqtech.wymaster.wylive.base;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
@@ -14,8 +11,8 @@ import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,6 +31,8 @@ import com.miqtech.wymaster.wylive.utils.ToastUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -49,19 +48,19 @@ import butterknife.ButterKnife;
  * 采用注解的方式设置布局文件ID@see{LayoutId.class}
  * 在Base中使用Butterknife注入
  * 将oncreate()方法设置为final(包含了初始化模板，不应被重写)
- * <p>
+ * <p/>
  * 其他说明：
  * @see {Title.class}
  * activity标题使用了注解的方式
  * 另外针对某些页面标题会动态改变的
  * 提供了一个方法@see{setTitle(String str)}
  * @see {showBack()}
- * <p>
+ * <p/>
  * 提供两个showBack()方法
  * 可以替换左上角back图标
  * 通常情况下不需要调用，也不需要设置点击事件
  * 对于某些界面不要显示back按钮的，需要在初始化的时候调用@see{hideBack()}
- * <p>
+ * <p/>
  * 子类应该实现@see{initViews(Bundle saveInstance)}
  * 需要注意的是：此BaseAppCompatActivity的初始化采用了模板方法模式
  * 子类无需关注初始化过程，只需要实现相应的方法即可
@@ -89,13 +88,15 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity implements
     @Override
     public final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            setTranslucentStatus(true);
+        List<String> myTga = Arrays.asList(getResources().getStringArray(R.array.un_set_translucent_status));
+        if (!myTga.contains(TAG)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                setTranslucentStatus(true);
+            }
+            mTintManager = new SystemBarTintManager(this);
+            mTintManager.setStatusBarTintEnabled(true);
+            mTintManager.setStatusBarTintResource(R.color.main);
         }
-        mTintManager = new SystemBarTintManager(this);
-        mTintManager.setStatusBarTintEnabled(true);
-        mTintManager.setStatusBarTintResource(R.color.main);
-
         int resId = getClass().getAnnotation(LayoutId.class).value();
         setContentView(resId);
         ButterKnife.bind(this);
@@ -127,6 +128,9 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity implements
      * @param customTitle 标题
      */
     protected void setTitle(String customTitle) {
+        if (tvLeftTitle == null) {
+            return;
+        }
         if (getClass().getAnnotation(Title.class) != null) {
             int titleId = getClass().getAnnotation(Title.class).titleId();
             String title = getClass().getAnnotation(Title.class).title();
@@ -275,7 +279,6 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity implements
     }
 
     protected void jumpToActivity(@NonNull Class clazz) {
-        L.e(TAG, "---jump------");
         jumpToActivity(clazz, null);
     }
 

@@ -36,4 +36,22 @@ public class API {
      * 观看历史
      */
     public static final String BROWSE_HISTORY = "v4/live/browseHistory";
+
+
+    /**
+     * 关注列表
+     */
+    public static final String LIVE_SUBCRIBELIST = "tv/subcribe/subcribeList";
+
+
+
+    /**
+     * 直播大厅
+     */
+    public static final String LIVE_VIDEO_LIST = "v4/live/liveHall";
+    /**
+     *
+     */
+    public static final String HALL_BANNER="tv/index/banner";
+
 }
