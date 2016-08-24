@@ -44,7 +44,6 @@ public class API {
     public static final String LIVE_SUBCRIBELIST = "tv/subcribe/subcribeList";
 
 
-
     /**
      * 直播大厅
      */
@@ -52,6 +51,16 @@ public class API {
     /**
      *
      */
-    public static final String HALL_BANNER="tv/index/banner";
+    public static final String HALL_BANNER = "tv/index/banner";
+
+    /**
+     * 分类列表
+     */
+    public static final String CATEGORY = "tv/sort/index";
+
+    /**
+     * 搜索
+     */
+    public static final String SEARCH = "tv/index/searchLive";
 
 }

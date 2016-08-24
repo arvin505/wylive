@@ -259,7 +259,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity implements
     public void onError(String errMsg, String method) {
         L.e(TAG, "---------------------------------------onError-------------------------------\n"
                 + "-------------------------------------" + method + "---------------------------------\n"
-                + "data : " + errMsg.toString());
+                + "data : " + errMsg);
     }
 
     @Override

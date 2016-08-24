@@ -21,6 +21,7 @@ import com.miqtech.wymaster.wylive.module.LoginActivity;
 import com.miqtech.wymaster.wylive.module.main.ui.adapter.AttentionAnchorAdapter;
 import com.miqtech.wymaster.wylive.proxy.UserEventDispatcher;
 import com.miqtech.wymaster.wylive.proxy.UserProxy;
+import com.miqtech.wymaster.wylive.widget.pullToRefresh.PullToRefreshBase;
 import com.miqtech.wymaster.wylive.widget.pullToRefresh.PullToRefreshRecyclerView;
 
 import org.json.JSONObject;
@@ -69,7 +70,25 @@ public class FragmentAttentionAnchor extends BaseFragment implements RecycleView
         rvAttenAnchor.addItemDecoration(new DividerGridItemDecoration(mActivity));
         mAdapter.setOnItemClickListener(this);
 
-       // loadAttenAnchorData();
+        loadAttenAnchorData();
+        ptrAttenAnchor.setMode(PullToRefreshBase.Mode.BOTH);
+        ptrAttenAnchor.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<RecyclerView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
+                page = 1;
+                loadAttenAnchorData();
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
+                page++;
+                loadAttenAnchorData();
+            }
+
+            @Override
+            public void isHasNetWork(boolean isHasNetWork) {
+            }
+        });
 
     }
 
@@ -104,6 +123,7 @@ public class FragmentAttentionAnchor extends BaseFragment implements RecycleView
     @Override
     public void onSuccess(JSONObject object, String method) {
         super.onSuccess(object, method);
+        ptrAttenAnchor.onRefreshComplete();
         try {
             Gson gson = new Gson();
             switch (method) {
@@ -129,6 +149,17 @@ public class FragmentAttentionAnchor extends BaseFragment implements RecycleView
 
     }
 
+    @Override
+    public void onError(String errMsg, String method) {
+        super.onError(errMsg, method);
+        ptrAttenAnchor.onRefreshComplete();
+    }
+
+    @Override
+    public void onFaild(JSONObject object, String method) {
+        super.onFaild(object, method);
+        ptrAttenAnchor.onRefreshComplete();
+    }
 
     @Override
     public void onItemClick(View view, int position) {

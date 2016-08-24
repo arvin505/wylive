@@ -1,26 +1,34 @@
 package com.miqtech.wymaster.wylive.module.search.ui.activity;
 
 import android.os.Bundle;
+import android.print.PageRange;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.miqtech.wymaster.wylive.R;
 import com.miqtech.wymaster.wylive.annotations.LayoutId;
 import com.miqtech.wymaster.wylive.annotations.Title;
 import com.miqtech.wymaster.wylive.base.BaseAppCompatActivity;
 import com.miqtech.wymaster.wylive.common.DividerGridItemDecoration;
 import com.miqtech.wymaster.wylive.common.RecycleViewItemClickListener;
+import com.miqtech.wymaster.wylive.constants.API;
 import com.miqtech.wymaster.wylive.entity.AnchorInfo;
 import com.miqtech.wymaster.wylive.entity.LiveInfo;
 import com.miqtech.wymaster.wylive.entity.LiveTypeInfo;
 import com.miqtech.wymaster.wylive.entity.SearchWrapper;
 import com.miqtech.wymaster.wylive.module.search.ui.activity.adapter.SearchContentAdapter;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.StringTokenizer;
+import java.util.Map;
+
 
 import butterknife.BindView;
 
@@ -37,6 +45,10 @@ public class SearchContentActivity extends BaseAppCompatActivity implements Recy
     List<SearchWrapper<Object>> mResult;
     GridLayoutManager layoutManager;
     SearchContentAdapter mAdapter;
+
+    private int page = 1;
+    private int pageSize = 1;
+    private String TYPE = "1";
 
 
     @Override
@@ -61,6 +73,7 @@ public class SearchContentActivity extends BaseAppCompatActivity implements Recy
         rvSearch.addItemDecoration(new DividerGridItemDecoration(this));
 
         mAdapter.setOnItemClickListener(this);
+        search(key);
     }
 
     private void generateData() {
@@ -128,6 +141,78 @@ public class SearchContentActivity extends BaseAppCompatActivity implements Recy
                 bundle.putString("key", key);
                 jumpToActivity(SearchAnchorActivity.class, bundle);
             }
+        }
+    }
+
+    private void search(String key) {
+        Map<String, String> params = new HashMap<>();
+        params.put("keyWords", key);
+        params.put("page", page + "");
+        params.put("pageSize", pageSize + "");
+        params.put("type", TYPE);
+    }
+
+    /**
+     * 将s搜索到数据处理成符合要求的数据
+     */
+    private void initData(List<LiveTypeInfo> games, List<LiveInfo> lives, List<AnchorInfo> anchors, List<LiveInfo> videos) {
+        mResult = new ArrayList<>();
+        if (games != null && !games.isEmpty()) {
+            mResult.add(new SearchWrapper<Object>(0, "游戏"));
+        }
+        for (int i = 0; i < 4 && i < games.size(); i++) {
+            mResult.add(new SearchWrapper<Object>(1, games.get(i)));
+        }
+        if (lives != null && !lives.isEmpty()) {
+            mResult.add(new SearchWrapper<Object>(0, "直播"));
+        }
+        for (int i = 0; i < 4 && i < lives.size(); i++) {
+            mResult.add(new SearchWrapper<Object>(2, lives.get(i)));
+        }
+        if (anchors != null && !anchors.isEmpty()) {
+            mResult.add(new SearchWrapper<Object>(0, "主播"));
+        }
+        for (int i = 0; i < 4 && i < anchors.size(); i++) {
+            mResult.add(new SearchWrapper<Object>(3, anchors.get(i)));
+        }
+        if (videos != null && !videos.isEmpty()) {
+            mResult.add(new SearchWrapper<Object>(0, "视频"));
+        }
+        for (int i = 0; i < 4 && i < videos.size(); i++) {
+            mResult.add(new SearchWrapper<Object>(4, videos.get(i)));
+        }
+    }
+
+    @Override
+    public void onSuccess(JSONObject object, String method) {
+        super.onSuccess(object, method);
+        try {
+            Gson gson = new Gson();
+            switch (method) {
+                case API.SEARCH:
+                    List<LiveTypeInfo> games = gson.fromJson(object.getJSONObject("object").
+                                    getJSONObject("game").getJSONArray("list").toString(),
+                            new TypeToken<List<LiveTypeInfo>>() {
+                            }.getType());
+                    List<LiveInfo> lives = gson.fromJson(object.getJSONObject("object").
+                                    getJSONObject("game").getJSONArray("list").toString(),
+                            new TypeToken<List<LiveInfo>>() {
+                            }.getType());
+                    List<AnchorInfo> anchors = gson.fromJson(object.getJSONObject("object").
+                                    getJSONObject("game").getJSONArray("list").toString(),
+                            new TypeToken<List<AnchorInfo>>() {
+                            }.getType());
+                    List<LiveInfo> videos = gson.fromJson(object.getJSONObject("object").
+                                    getJSONObject("game").getJSONArray("list").toString(),
+                            new TypeToken<List<LiveInfo>>() {
+                            }.getType());
+                    initData(games, lives, anchors, videos);
+                    mAdapter.notifyDataSetChanged();
+                    break;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

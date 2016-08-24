@@ -7,22 +7,22 @@ import java.util.List;
  */
 public class LiveCategory {
 
-    private List<LiveTypeInfo> recentPlay;
-    private List<LiveTypeInfo> allPlay;
+    private List<LiveTypeInfo> history;
+    private List<LiveTypeInfo> gameList;
 
-    public List<LiveTypeInfo> getRecentPlay() {
-        return recentPlay;
+    public List<LiveTypeInfo> getHistory() {
+        return history;
     }
 
-    public void setRecentPlay(List<LiveTypeInfo> recentPlay) {
-        this.recentPlay = recentPlay;
+    public void setHistory(List<LiveTypeInfo> history) {
+        this.history = history;
     }
 
-    public List<LiveTypeInfo> getAllPlay() {
-        return allPlay;
+    public List<LiveTypeInfo> getGameList() {
+        return gameList;
     }
 
-    public void setAllPlay(List<LiveTypeInfo> allPlay) {
-        this.allPlay = allPlay;
+    public void setGameList(List<LiveTypeInfo> gameList) {
+        this.gameList = gameList;
     }
 }

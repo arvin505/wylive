@@ -70,7 +70,7 @@ public class LiveCategoryAdapter extends BaseRecycleViewAdapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (mData.getRecentPlay() == null || mData.getRecentPlay().isEmpty()) {
+        if (mData.getHistory() == null || mData.getHistory().isEmpty()) {
             if (position > 0) {
                 initItemView((LiveItemHolder) holder, position - 1);
             }
@@ -89,24 +89,24 @@ public class LiveCategoryAdapter extends BaseRecycleViewAdapter {
         if (mData == null) {
             return 0;
         }
-        if (mData.getRecentPlay() == null || mData.getRecentPlay().isEmpty()) {
-            if (mData.getAllPlay() == null || mData.getAllPlay().isEmpty()) {
+        if (mData.getHistory() == null || mData.getHistory() == null || mData.getHistory().isEmpty()) {
+            if (mData.getGameList() == null || mData.getGameList().isEmpty()) {
                 return 0;
             } else {
-                return mData.getAllPlay().size() + 1;
+                return mData.getGameList().size() + 1;
             }
         } else {
-            if (mData.getAllPlay().size() == 0 || mData.getAllPlay().isEmpty()) {
-                return mData.getRecentPlay().size() + 1;
+            if (mData.getGameList() == null || mData.getGameList().size() == 0 || mData.getGameList().isEmpty()) {
+                return 1;
             } else {
-                return mData.getAllPlay().size() + 2;
+                return mData.getGameList().size() + 2;
             }
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (mData.getRecentPlay() == null || mData.getRecentPlay().isEmpty()) {
+        if (mData.getHistory() == null || mData.getHistory().isEmpty()) {
             if (position == 0) {
                 return VIEWTYPE_TAG;
             }
@@ -125,7 +125,7 @@ public class LiveCategoryAdapter extends BaseRecycleViewAdapter {
     private View generateRecent() {
         View convertView = mInflater.inflate(R.layout.layout_livecategory_recent, null);
         LinearLayout llContent = (LinearLayout) convertView.findViewById(R.id.llRecentContent);
-        List<LiveTypeInfo> recents = mData.getRecentPlay();
+        List<LiveTypeInfo> recents = mData.getHistory();
         for (int i = 0; i < 3; i++) {
             View itemView = mInflater.inflate(R.layout.layout_livecategory_item, null);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -145,9 +145,9 @@ public class LiveCategoryAdapter extends BaseRecycleViewAdapter {
 
     private void initRecentItemView(RecentHolder holder) {
         ViewGroup parent = (ViewGroup) holder.itemView.findViewById(R.id.llRecentContent);
-        for (int i = 0; i < mData.getRecentPlay().size() && i < 3; i++) {
+        for (int i = 0; i < mData.getHistory().size() && i < 3; i++) {
             View view = parent.getChildAt(i);
-            LiveTypeInfo data = mData.getRecentPlay().get(i);
+            LiveTypeInfo data = mData.getHistory().get(i);
             TextView tvGameName = (TextView) view.findViewById(R.id.tv_game_name);
             TextView tvLiveCount = (TextView) view.findViewById(R.id.tv_live_count);
             TextView tvVideoCount = (TextView) view.findViewById(R.id.tv_video_count);
@@ -170,7 +170,7 @@ public class LiveCategoryAdapter extends BaseRecycleViewAdapter {
     }
 
     private void initItemView(final LiveItemHolder holder, final int pos) {
-        LiveTypeInfo data = mData.getAllPlay().get(pos);
+        LiveTypeInfo data = mData.getGameList().get(pos);
         holder.tvGameName.setText(data.getName());
         holder.tvLiveCount.setText(data.getLiveNum() + "直播");
         holder.tvVideoCount.setText(data.getVideoNum() + "视频");

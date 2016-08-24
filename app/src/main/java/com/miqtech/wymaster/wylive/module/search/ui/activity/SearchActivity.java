@@ -65,6 +65,8 @@ public class SearchActivity extends BaseAppCompatActivity implements AdapterView
      * 存储搜索内容
      */
     private void saveSearchContent(String content) {
+        List history = getSearchHistory();
+        if (history.contains(content)) return;
         StringBuilder sb = new StringBuilder(PreferenceUtils.getString(SEARCH_HISTORY));
         if (sb.toString().equals("")) {
             sb.append(content);

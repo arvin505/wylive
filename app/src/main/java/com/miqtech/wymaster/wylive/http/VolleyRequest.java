@@ -47,7 +47,7 @@ public class VolleyRequest implements Request {
                 callback.onError(volleyError.getMessage(), method);
             }
         }, parmams);
-        request.setRetryPolicy(new DefaultRetryPolicy(7 * 1000, 0, 1.0f));   //设置超时，重发
+        request.setRetryPolicy(new DefaultRetryPolicy(4 * 1000, 0, 1.0f));   //设置超时，重发
         request.setTag(requetTag);
         mRequestQueue.add(request);
         addRequestTag(request, requetTag);

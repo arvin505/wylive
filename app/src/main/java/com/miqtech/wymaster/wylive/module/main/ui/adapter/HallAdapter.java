@@ -104,7 +104,7 @@ public class HallAdapter extends RecyclerView.Adapter {
         }else if (holder instanceof LivePlayTitle) {
             setTitle((LivePlayTitle) holder, position);
         } else if (holder instanceof LivePlayItemHolder) {
-            setLivePlay((LivePlayItemHolder) holder, position);
+      //      setLivePlay((LivePlayItemHolder) holder, position);
         } else if (holder instanceof VideoItemHolder) {
             setupVideo((VideoItemHolder) holder, position);
         } else if (holder instanceof EmptyHolder) {
