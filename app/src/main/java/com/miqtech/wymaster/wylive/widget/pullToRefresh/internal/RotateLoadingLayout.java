@@ -21,11 +21,13 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView.ScaleType;
 
 import com.miqtech.wymaster.wylive.R;
+import com.miqtech.wymaster.wylive.utils.L;
 import com.miqtech.wymaster.wylive.widget.pullToRefresh.PullToRefreshBase;
 
 
@@ -82,6 +84,7 @@ public class RotateLoadingLayout extends LoadingLayout {
 	 * @param scaleOfLayout
      */
 	protected void onPullImpl(float scaleOfLayout) {
+		L.e("RotateLoadingLayout","onPullImpl");
 		float angle;
 		if (mRotateDrawableWhilePulling) {
 			angle = scaleOfLayout * 90f;

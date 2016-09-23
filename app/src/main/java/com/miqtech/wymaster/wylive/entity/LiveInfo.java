@@ -15,19 +15,48 @@ public class LiveInfo implements Serializable {
     private int id;// 视频id
     private String title; //标题
     @SerializedName("play_times")
-    private int playTimes ;//播放次数
-    @SerializedName("game_name")
+    private int playTimes;//播放次数
+    @SerializedName(value = "game_name", alternate = {"name"})
     private String gameName;//游戏名称
     @SerializedName("online_num")
-    private int  onlineNum;//在线人数
+    private int onlineNum;//在线人数
     @SerializedName("user_icon")
     private String userIcon; //主播头像
     @SerializedName("room_id")
-    private String roomId ;//房间Id
+    private String roomId;//房间Id
     private String rtmp; //直播地址
-    private int sex;//直播性别
+    private int sex;//直播性别 0 男 1 女
     @SerializedName("userId")
-    private int user_id ;//主播ID
+    private int user_id;//主播ID
+    private int source;
+
+    private int type;
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    private int screen; //0-宽屏 1-竖屏;
+
+    public int getScreen() {
+        return screen;
+    }
+
+    public int getSource() {
+        return source;
+    }
+
+    public void setSource(int source) {
+        this.source = source;
+    }
+
+    public void setScreen(int screen) {
+        this.screen = screen;
+    }
 
     public String getRoomId() {
         return roomId;

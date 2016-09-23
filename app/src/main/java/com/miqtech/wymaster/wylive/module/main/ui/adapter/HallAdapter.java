@@ -289,10 +289,10 @@ public class HallAdapter extends RecyclerView.Adapter {
         if (data != null) {
             L.e(TAG,"setupVideo !=null");
             AsyncImage.displayImage(data.getIcon(), holder.ivVideoPic);
-            holder.tvPlayNum.setText(Utils.calculate(data.getPlayTimes(), 10000, "万"));
+            //holder.tvPlayNum.setText(Utils.calculate(data.getPlayTimes(), 10000, "万"));
             holder.tvVideoTitle.setText(data.getTitle());
             holder.tvVideoContent.setText(data.getNickname());
-            holder.tvCommentNum.setText(Utils.calculate(data.getCommentNum(), 10000, "万"));
+           // holder.tvCommentNum.setText(Utils.calculate(data.getCommentNum(), 10000, "万"));
         }
 
         final LiveInfo finalData = data;
@@ -334,9 +334,7 @@ public class HallAdapter extends RecyclerView.Adapter {
             } else {
                 videoNum = 0;
             }
-            L.e(TAG,"getItemCount"+(liveNum + videoNum));
             if(liveNum!=0 && videoNum!=0){
-                L.e(TAG,"getItemCount 总数"+(liveNum + videoNum+1));
                 return liveNum + videoNum+1;
             }
             return liveNum + videoNum;
@@ -346,12 +344,9 @@ public class HallAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        L.e(TAG, "getItemViewType");
         if ((liveDatas != null && liveDatas.isEmpty() && (videoDatas != null && videoDatas.isEmpty()))) {
-            L.e(TAG, "getItemViewType 222");
             return VIEW_EMPTY;
         } else if ((liveDatas != null && !liveDatas.isEmpty()) && (videoDatas != null && videoDatas.isEmpty())) {
-            L.e(TAG, "getItemViewType 3333");
             if (position == 0) {
                 if (type == 1) {
                     return VIEW_LIVE_ITEM;
@@ -362,7 +357,6 @@ public class HallAdapter extends RecyclerView.Adapter {
                 return VIEW_LIVE_ITEM;
             }
         } else if ((liveDatas != null && liveDatas.isEmpty()) && (videoDatas != null && !videoDatas.isEmpty())) {
-            L.e(TAG, "getItemViewType 44444");
             if (position == 0) {
                 if (type == 2) {
                     return VIEW_VIDEO_ITEM;
@@ -373,20 +367,15 @@ public class HallAdapter extends RecyclerView.Adapter {
                 return VIEW_VIDEO_ITEM;
             }
         } else {
-            L.e(TAG, "getItemViewType 5555");
             if (position == 0) {
-                L.e(TAG, "getItemViewType 6666");
                 return  VIEW_BANNER;
             } else if(position==1){
                 return VIEW_LIVE_TITLE;
             }else if (position > 1 && position <= liveDatas.size()+1) {
-                L.e(TAG, "getItemViewType 77777");
                 return VIEW_LIVE_ITEM;
             } else if (position == liveDatas.size() + 2) {
-                L.e(TAG, "getItemViewType 88888");
                 return VIEW_VIDEO_TITLE;
             } else {
-                L.e(TAG, "getItemViewType 999999");
                 return VIEW_VIDEO_ITEM;
             }
 

@@ -2,7 +2,7 @@ package com.miqtech.wymaster.wylive.entity;
 
 public class Banner {
     private String img; //图片
-    int id;
+    private int id;
     private int type; //类型：1直播 2视频 3url
     private String target; //目标对象的ID或者url地址
     private String title; //标题

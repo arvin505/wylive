@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:ignore="http://schemas.android.com/tools"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/registerRlCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:paddingLeft="35dp"
+        android:paddingRight="35dp">
+
+        <TextView
+            android:id="@+id/registerTvSendCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:text="@string/send_code"
+            android:textColor="@color/attention_item_count"
+            android:textSize="@dimen/text_size_14" />
+
+        <EditText
+            android:id="@+id/registerEtCode"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toLeftOf="@id/registerTvSendCode"
+            android:background="@null"
+            android:ellipsize="end"
+            android:hint="@string/please_imput_code"
+            android:inputType="number"
+            android:maxLength="6"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textColorHint="@color/category_item_count"
+            android:textSize="@dimen/text_size_14" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@id/registerEtCode"
+            android:layout_marginTop="10dp"
+            android:background="@color/line_one" />
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/registerTvTip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_10"
+        ignore:text="政府的V就走的人覅U"
+        android:paddingLeft="50dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/category_item_count"/>
+
+    <Button
+        android:id="@+id/registerBtNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="42dp"
+        android:background="@drawable/register_button"
+        android:gravity="center"
+        android:text="@string/next"
+        android:textColor="@color/text_gray_one"
+        android:textSize="@dimen/text_size_14" />
+
+</LinearLayout>

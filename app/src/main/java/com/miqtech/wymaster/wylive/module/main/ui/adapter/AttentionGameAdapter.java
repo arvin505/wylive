@@ -44,7 +44,6 @@ public class AttentionGameAdapter extends BaseRecycleViewAdapter {
                 convertView = mInflater.inflate(R.layout.layout_livecategory_item, parent, false);
                 holder = new ItemHolder(convertView);
                 break;
-
         }
         return holder;
     }
@@ -74,6 +73,11 @@ public class AttentionGameAdapter extends BaseRecycleViewAdapter {
     }
 
     @Override
+    public int getItemViewType(int position) {
+        return TYPE_ITEM;
+    }
+
+    @Override
     public int getItemCount() {
         if (mDatas == null) return 0;
         return mDatas.size();
@@ -92,6 +96,7 @@ public class AttentionGameAdapter extends BaseRecycleViewAdapter {
         public ItemHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
         }
     }
 

@@ -3,6 +3,8 @@
     <color name="colorPrimary">#1c232d</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="backgroud_dialog">#323A43</color>
+    <color name="backgroud_dialog_et">#575D65</color>
 
     <color name="main">#1c232d</color>
 
@@ -32,10 +34,17 @@
     <color name="hall_font_gray">#8B8E92</color>
     <color name="video_font_white">#D1D4D8</color>
     <color name="video_font_gray">#9DA4AD</color>
-     <color name="video_font_deep_gray">#626F7E</color>
+    <color name="video_font_deep_gray">#626F7E</color>
 
+    <color name="mine_bg_color">#171A21</color>
+
+    <color name="mine_username_color">#CECFD2</color>
+    <color name="mine_room_id_color">#4C4C58</color>
+    <color name="mine_item_bg_color">#1A2129</color>
+    <color name="mine_item_text_color">#8A8D90</color>
     <color name="bar_text_selected">#ff3366</color>
     <color name="bar_text_unselected">#cecfd2</color>
+    <color name="mine_btn_bg">#FF3269</color>
 
     <!--分类-->
     <color name="category_item_title">#98A9BB</color>
@@ -51,4 +60,30 @@
     <color name="hall_title_font_white">#D0D1D2</color>
     <color name="hall_title_more_font_gray">#8A8D90</color>
 
+    <!--直播间-->
+    <color name="live_black">#000000</color>
+    <color name="blue_comment_title">#334f8b</color>
+    <color name="half_transparent">#88000000</color>
+    <color name="live_anchor_info_bg">#1c232d</color>
+
+    <color name="trans">#00000000</color>
+    <color name="black">#000000</color>
+    <color name="alertdialog_line">#c6c6c6</color>
+    <color name="actionsheet_blue">#037BFF</color>
+    <color name="actionsheet_red">#FD4A2E</color>
+    <color name="actionsheet_gray">#8F8F8F</color>
+
+
+    <color name="search_edit_bg">#161d24</color>
+    <color name="search_edit_border">#1a2a3e</color>
+
+    <color name="line_one">#43434F</color>
+
+    <color name="text_gray_one">#8E8E9A</color>
+    <color name="comment_content">#EBEBEB</color>
+    <color name="submit_commit_input_bg">#161d25</color>
+    <color name="live_line">#1a2a3e</color>
+    <color name="font_gray">#b3b3b3</color>
+
+    <color name="black_70_percent">#B2000000</color>
 </resources>

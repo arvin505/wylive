@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/llAnchorInfo"
+    android:background="@color/live_category_bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.miqtech.wymaster.wylive.widget.CircleImageView
+            android:id="@+id/anchorHeader"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="12dp"
+            android:src="@drawable/default_head" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+            <TextView
+                android:id="@+id/anchorTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="标题"
+                android:textColor="@color/attention_item_title"
+                android:textSize="@dimen/text_size_13" />
+            <ImageView
+                android:id="@+id/anchorSex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/live_play_men"
+                android:visibility="gone"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/fansNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="粉丝 2.4W"
+                android:textColor="@color/category_item_count"
+                android:textSize="@dimen/text_size_10" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvAttention"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp"
+            android:paddingBottom="6dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="6dp"
+            android:text="关注"
+            android:drawablePadding="4dp"
+            android:drawableLeft="@drawable/live_attention"
+            android:background="@drawable/shape_orange_lien_bg"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_12" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/anchorContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="9dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="20dp"
+        android:text=""
+        android:textColor="@color/category_item_title"
+        android:textSize="@dimen/text_size_11" />
+
+</LinearLayout>

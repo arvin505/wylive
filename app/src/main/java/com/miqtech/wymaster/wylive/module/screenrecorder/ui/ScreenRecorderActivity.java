@@ -35,6 +35,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.miqtech.wymaster.wylive.R;
 import com.miqtech.wymaster.wylive.annotations.LayoutId;
+import com.miqtech.wymaster.wylive.annotations.Title;
 import com.miqtech.wymaster.wylive.base.BaseAppCompatActivity;
 import com.miqtech.wymaster.wylive.common.SimpleTextWatcher;
 import com.miqtech.wymaster.wylive.constants.API;
@@ -62,6 +63,7 @@ import butterknife.OnClick;
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 @LayoutId(R.layout.activity_screenrecorder)
+@Title(title = "直播设置")
 public class ScreenRecorderActivity extends BaseAppCompatActivity implements RadioGroup.OnCheckedChangeListener {
     public static int REQUEST_CODE_CAPTURE_PERM = 0x123;
     @BindView(R.id.et_live_title)
@@ -88,7 +90,10 @@ public class ScreenRecorderActivity extends BaseAppCompatActivity implements Rad
     ImageView imgClear;
     @BindView(R.id.ll_root)
     LinearLayout llRoot;
-
+    @BindView(R.id.ll_start)
+    LinearLayout llStart;
+    @BindView(R.id.img_start)
+    ImageView imgStart;
     ProgressDialog progressDialog;
 
 
@@ -112,7 +117,6 @@ public class ScreenRecorderActivity extends BaseAppCompatActivity implements Rad
     private PopupWindow popupWindow;
 
 
-
     @Override
     public void initViews(Bundle savedInstanceState) {
         getSize();
@@ -125,9 +129,7 @@ public class ScreenRecorderActivity extends BaseAppCompatActivity implements Rad
     }
 
 
-
     public void initView() {
-        setTitle("创建直播");
         rgOrientation.check(R.id.rb_orientation_vertical);
         rgQuality.check(R.id.rb_quality_h);
 
@@ -167,6 +169,7 @@ public class ScreenRecorderActivity extends BaseAppCompatActivity implements Rad
             mPiliPushService = ((PiliPushService.PiliPushBinder) service).getService();
             if (mPiliPushService.isStreaming()) {
                 btnStart.setText("停止直播");
+                imgStart.setImageResource(R.drawable.icon_live_stop);
                 String[] params = getLive();
                 if (params != null && params.length > 0) {
                     for (int i = 0; i < params.length; i++) {
@@ -180,6 +183,7 @@ public class ScreenRecorderActivity extends BaseAppCompatActivity implements Rad
                 setEnable(false);
             } else {
                 btnStart.setText("开始直播");
+                imgStart.setImageResource(R.drawable.icon_live_start);
                 saveLive("");
                 setEnable(true);
             }
@@ -209,6 +213,7 @@ public class ScreenRecorderActivity extends BaseAppCompatActivity implements Rad
                 mMediaProjection = mMediaProjectionManager.getMediaProjection(resultCode, data);
                 mPiliPushService.startPushStream(mMediaProjection);
                 btnStart.setText("停止直播");
+                imgStart.setImageResource(R.drawable.icon_live_stop);
                 saveLive(null);
                 AsyncTask.execute(new Runnable() {
                     @Override
@@ -221,7 +226,9 @@ public class ScreenRecorderActivity extends BaseAppCompatActivity implements Rad
                         liveNotify();
                     }
                 });
+                setEnable(false);
             } else {
+                setEnable(true);
                 showToast("直播需要权限，请允许");
             }
         }
@@ -282,17 +289,19 @@ public class ScreenRecorderActivity extends BaseAppCompatActivity implements Rad
         }
     }
 
-    @OnClick({R.id.ibLeft, R.id.btn_start, R.id.img_clear, R.id.img_choose_game})
+    @OnClick({R.id.ibLeft, R.id.ll_start, R.id.img_clear, R.id.img_choose_game})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ibLeft:
                 onBackPressed();
                 break;
-            case R.id.btn_start:
+            case R.id.ll_start:
                 if (mPiliPushService.isStreaming()) {
                     btnStart.setText("开始直播");
+                    imgStart.setImageResource(R.drawable.icon_live_start);
                     mPiliPushService.stopService();
                     setEnable(true);
+                    closeLive();
                 } else {
                     setSizeWithOrientation();
                     /*mPiliPushService.setParams(this, mVideoWidth, mVideoHeight, mDensityDpi, mOrientation, mBitRate, Constants.PUSH_URL_ANDROID_TEST_01);
@@ -355,7 +364,6 @@ public class ScreenRecorderActivity extends BaseAppCompatActivity implements Rad
                     pushUrl = object.getString("object");
                     mPiliPushService.setParams(this, mVideoWidth, mVideoHeight, mDensityDpi, mOrientation, mBitRate, pushUrl);
                     mPiliPushService.startPushStream();
-                    setEnable(false);
                     break;
             }
         } catch (Exception e) {
@@ -450,6 +458,7 @@ public class ScreenRecorderActivity extends BaseAppCompatActivity implements Rad
             }
             params.put("token", user.getToken());
             params.put("userId", user.getId());
+            params.put("source", "1");
             sendHttpRequest(API.LIVE_NOTIFY, params);
         }
     }
@@ -499,7 +508,7 @@ public class ScreenRecorderActivity extends BaseAppCompatActivity implements Rad
                 .append(rgOrientation.getCheckedRadioButtonId())
                 .append(SEPARATOR)
                 .append(rgQuality.getCheckedRadioButtonId());
-        PreferenceUtils.putString("liveparams",sb.toString());
+        PreferenceUtils.putString("liveparams", sb.toString());
 
     }
 
@@ -562,6 +571,16 @@ public class ScreenRecorderActivity extends BaseAppCompatActivity implements Rad
         super.onPause();
         if (mPiliPushService != null) {
             mPiliPushService.setShouldJump(true);
+        }
+    }
+
+    private void closeLive() {
+        User user = UserProxy.getUser();
+        if (user != null) {
+            Map<String, String> params = new HashMap<>();
+            params.put("token", user.getToken());
+            params.put("userId", user.getId());
+            sendHttpRequest(API.CLOSE_LIVE, params);
         }
     }
 }

@@ -34,4 +34,5 @@ public class UserEventDispatcher {
     public static void getAttentionAnchor(BaseFragment fragment){
         mUserState.getAttentionAnchor(fragment);
     }
+
 }

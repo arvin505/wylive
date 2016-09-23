@@ -9,7 +9,21 @@
 
     <string-array name="un_set_translucent_status">
         <item>LoginActivity</item>
+        <item>RegisterActivity</item>
+        <item>SetPasswordActivity</item>
+        <item>StartActivity</item>
+        <item>SubjectActivity</item>
     </string-array>
 
+    <string-array name="login_unnecessary">
+        <item>tv/sort/index</item>
+        <item>tv/sort/section</item>
+    </string-array>
+
+    <string-array name="host">
+        <item>http://api.wangyuhudong.com/</item>
+        <item>http://wy.api.wangyuhudong.com/</item>
+        <item>http://172.16.2.62/</item>
+    </string-array>
 
 </resources>

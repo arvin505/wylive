@@ -1388,7 +1388,6 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 			}
 		}
 	}
-
 	public static enum Mode {
 
 		/**

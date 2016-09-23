@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/mine_bg_color"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:layout_height="match_parent">
+    <include layout="@layout/layout_include_header" />
+    <EditText
+        android:id="@+id/edtNickName"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/bg_rectangle_corner_hollow_02"
+        android:textColorHint="@color/category_item_count"
+        android:hint="请输入昵称"
+        android:textSize="@dimen/text_size_13"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/white"
+        android:paddingLeft="5dp"
+        android:singleLine="true"
+        android:maxLength="20"
+        android:paddingRight="5dp"
+        android:layout_height="40dp" />
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:text="保存"
+        android:textColor="@color/white"
+        android:background="@drawable/login_button"
+        android:layout_marginTop="45dp"
+        android:textSize="@dimen/text_size_14"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content" />
+</LinearLayout>

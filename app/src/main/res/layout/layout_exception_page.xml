@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/errorPage"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/transparent"
     android:gravity="center"
-    android:id="@+id/errorPage"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:visibility="gone">
 
     <ImageView
         android:id="@+id/img_exception"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:src="@drawable/icon_bar_main_selected" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <TextView
+        android:id="@+id/tvExceptionHint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="错误看界面"
-        android:textColor="@color/orange"
-        android:textSize="26sp" />
-
+        android:textColor="@color/gray"
+        android:textSize="16sp" />
 </LinearLayout>

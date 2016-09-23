@@ -1,21 +1,55 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
-apply plugin: 'newlens'
+apply plugin: 'com.bugtags.library.plugin'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
-
+    useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "com.miqtech.wymaster.wylive"
-        minSdkVersion 21
+        minSdkVersion 14
         targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        versionCode 10000
+        versionName "1.0.0"
+        ndk {
+            // 设置支持的 SO 库构架
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86'//, 'x86_64', 'mips', 'mips64'
+        }
     }
+
+    signingConfigs {
+        release {
+            storeFile file("../master-release-key.keystore")
+            storePassword "111111"
+            keyAlias "master"
+            keyPassword "111111"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            signingConfig signingConfigs.release
+        }
+    }
+
+    lintOptions {
+        abortOnError false;
+        checkReleaseBuilds false
+    }
+    dexOptions {
+        jumboMode true
+        javaMaxHeapSize "2g"
+        preDexLibraries = false
+    }
+
+    sourceSets{
+        main{
+            jni.srcDirs=['src/main/jni']
         }
     }
 }
@@ -32,7 +66,24 @@ dependencies {
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'com.qiniu:happy-dns:0.2.7'
+    compile 'com.feezu.liuli:timeselector:1.0.8+'
     compile 'com.networkbench.newlens.agent.android:nbs.newlens.agent:2.4.4'
     compile 'com.android.support:recyclerview-v7:23.4.0'
     compile 'com.android.support:cardview-v7:23.4.0'
+    compile 'com.android.support:design:23.4.0'
+    compile 'com.flaviofaria:kenburnsview:1.0.7'
+    compile 'com.bugtags.library:bugtags-lib:latest.integration'
+    compile 'com.umeng.analytics:analytics:latest.integration'
+    compile 'com.qiniu.pili:pili-android-qos:0.8.+'
+    compile files('libs/nim-basesdk-2.8.0.jar')
+}
+
+bugtags {
+    //自动上传符号表功能配置，如果需要根据 build varint 配置，请参考插件详细使用说明
+    appKey "80effc11e125bfafa042abbc788c8c42"  //这里是你的 appKey
+    appSecret "APP_SECRET"    //这里是你的 appSecret，管理员在设置页可以查看
+    mappingUploadEnabled true
+
+    //网络跟踪功能配置(企业版)
+    trackingNetworkEnabled true
 }

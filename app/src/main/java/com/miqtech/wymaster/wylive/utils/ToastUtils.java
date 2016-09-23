@@ -27,7 +27,12 @@ public class ToastUtils {
             }
         }
         mToast.setDuration(duration);
-        mToast.setText(msg);
+        try {
+            mToast.setText(msg);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         mToast.show();
     }
 

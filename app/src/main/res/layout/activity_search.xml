@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/live_category_bg"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -11,28 +12,55 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/layout_include_header" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:paddingBottom="10dp"
+            android:paddingLeft="12dp"
+            android:paddingTop="10dp">
 
             <EditText
                 android:id="@+id/et_search"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/icon_back"
-                android:drawablePadding="5dp"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_rectangle_corner_hollow_02"
+                android:drawableLeft="@drawable/icon_search"
+                android:drawablePadding="6dp"
                 android:hint="@string/search_hint"
                 android:imeOptions="actionSearch"
-                android:padding="12dp"
+                android:paddingLeft="12dp"
                 android:singleLine="true"
-                android:textCursorDrawable="@null" />
+                android:textColor="@color/category_item_count"
+                android:textColorHint="@color/category_item_count"
+                android:textCursorDrawable="@null"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_cancle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:paddingRight="12dp"
+                android:text="取消"
+                android:textColor="@color/video_font_gray"
+                android:textSize="15sp" />
         </LinearLayout>
+
         <ListView
             android:id="@+id/lv_history"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:divider="@color/colorPrimary"
+            android:dividerHeight="1dp"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:listSelector="@drawable/selector_attention_anchor_item"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp" />
     </LinearLayout>
 
-   </RelativeLayout>
+</RelativeLayout>

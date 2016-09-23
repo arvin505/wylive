@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/registerRlPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="35dp"
+        android:paddingRight="35dp">
+
+        <EditText
+            android:id="@+id/registerEtPhone"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="35dp"
+            android:background="@null"
+            android:hint="@string/please_imput_phone"
+            android:inputType="phone"
+            android:maxLength="13"
+            android:textColor="@color/white"
+            android:textColorHint="@color/category_item_count"
+            android:textSize="@dimen/text_size_14" />
+
+        <ImageView
+            android:id="@+id/registerIvClearPhone"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:padding="4dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/delete"
+            android:visibility="gone" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@id/registerEtPhone"
+            android:layout_marginTop="10dp"
+            android:background="@color/line_one" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/registerBtGetCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="42dp"
+        android:background="@drawable/register_button"
+        android:gravity="center"
+        android:text="@string/get_code"
+        android:textColor="@color/text_gray_one"
+        android:textSize="@dimen/text_size_14" />
+</LinearLayout>
+

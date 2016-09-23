@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.miqtech.wymaster.wylive">
 
-    <uses-permission android:name="android.permission.INTERNET" />
 
     <!--录屏直播-->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-feature
@@ -21,7 +22,7 @@
         android:required="true" />
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission." />
 
     <application
         android:name=".WYLiveApp"
@@ -31,18 +32,29 @@
         android:persistent="true"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:allowBackup">
+        <activity android:name=".module.main.ui.activity.StartActivity"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/NoTitleFullscreen" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
         <activity
             android:name=".module.main.ui.activity.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait">
-            <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-
+        <activity
+            android:name=".module.main.ui.activity.SubjectActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".module.main.ui.activity.WebViewActivitay"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".module.screenrecorder.ui.ScreenRecorderActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -51,9 +63,41 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".module.live.LiveRoomActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.live.PlayVideoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"></activity>
+        <activity
             android:name=".module.search.ui.activity.SearchActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.live.LivePlayListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.live.ShareWeiboActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.live.LiveVideoListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.comment.PersonalCommentDetail"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".module.comment.PersonalHomePhotoActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name=".module.comment.SubmitGradesActivity"
+            android:screenOrientation="portrait"></activity>
 
         <activity
             android:name=".module.search.ui.activity.SearchContentActivity"
@@ -65,19 +109,94 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".module.game.activity.GameMainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.search.ui.activity.SearchVideoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.search.ui.activity.SearchLiveActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.live.VideoListActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+
         <service android:name=".module.screenrecorder.services.PiliPushService">
             <intent-filter android:priority="1000">
                 <action android:name="com.screenrecorder.services.PiliPushServic" />
             </intent-filter>
         </service>
 
-        <activity android:name=".module.LoginActivity">
+        <activity
+            android:name=".module.login.LoginActivity"
+            android:windowSoftInputMode="adjustPan">
             <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         </activity>
+        <activity
+            android:name=".module.register.RegisterActivity"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+
+        <!-- 这里是微信分享回调界面，本程序的Activity 请在此处以上添加 -->
+        <activity
+            android:name="com.miqtech.wymaster.wylive.module.wxapi.WXEntryActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent" />
+        <!-- QQ分享注册 -->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tencent1105698208" />
+            </intent-filter>
+        </activity>
+
+        <!-- 必须注册在微博授权，分享微博时候用到 -->
+        <activity
+            android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
+            android:configChanges="keyboardHidden|orientation"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity android:name=".module.mine.activity.EditUserInfoActviity" />
+        <activity android:name=".module.mine.activity.BoundUserPhoneActivity" />
+        <activity android:name=".module.mine.activity.BoundUserPhone2Activity" />
+        <activity android:name=".module.mine.activity.EditNickNameActivity" />
+        <activity android:name=".module.mine.activity.WatchHistoryActivity" />
+        <activity android:name=".module.mine.activity.MyVideoActivity" />
+        <activity android:name=".module.mine.activity.SettingActivity" />
+
+        <activity
+            android:name=".module.register.SetPasswordActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
+
+        <!-- umeng-->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="57c4fd74f43e4877bf003019"></meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="应用宝" />
 
     </application>
 

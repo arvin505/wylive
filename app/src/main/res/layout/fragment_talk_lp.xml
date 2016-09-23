@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/live_category_bg">
+    <RelativeLayout
+        android:id="@+id/rlAnchorInformation"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="top"
+        android:layout_marginTop="1dp"
+        android:visibility="visible"
+        android:background="@color/colorPrimary"
+        android:gravity="center_vertical"
+     >
+        <com.miqtech.wymaster.wylive.widget.CircleImageView
+            android:layout_marginLeft="12dp"
+            android:id="@+id/anchorHeader"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/default_head" />
+
+
+        <ImageView
+            android:id="@+id/ivUpAndDownIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingRight="12dp"
+            android:paddingLeft="12dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/live_play_up_icon"/>
+        <View
+            android:id="@+id/infoSpliteLine"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/ivUpAndDownIcon"
+            android:background="@color/live_category_bg"/>
+
+        <TextView
+            android:id="@+id/tvAttention"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp"
+            android:paddingBottom="6dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="6dp"
+            android:text="订阅"
+            android:drawablePadding="4dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/infoSpliteLine"
+            android:drawableLeft="@drawable/live_attention"
+            android:background="@drawable/shape_orange_lien_bg"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_12" />
+
+        <TextView
+            android:id="@+id/anchorTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="标题"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="12dp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/anchorHeader"
+            android:layout_toLeftOf="@id/tvAttention"
+            android:textColor="@color/attention_item_title"
+            android:textSize="@dimen/text_size_13" />
+
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/tvErrorPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/shop_font_black"
+        android:textSize="@dimen/text_size_13"
+        android:layout_centerInParent="true"
+        android:text=""
+        android:visibility="gone"/>
+    <LinearLayout
+        android:id="@+id/llComment"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tvComment"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="@string/live_comment_hint"
+            android:textColor="@color/category_item_count"
+            android:textSize="@dimen/text_size_13"
+            android:background="@drawable/shape_comment_bg"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            />
+    </LinearLayout>
+    <com.miqtech.wymaster.wylive.widget.pullToRefresh.PullToRefreshListView
+        android:id="@+id/lvLivePlayComments"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/llComment"
+        android:layout_below="@id/rlAnchorInformation"
+        android:divider="@null"
+        ></com.miqtech.wymaster.wylive.widget.pullToRefresh.PullToRefreshListView>
+</RelativeLayout>

@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
-    android:orientation="vertical">
+    android:orientation="vertical"
+
+    >
 
     <View
         android:id="@+id/statusHeight"
@@ -68,10 +70,11 @@
 
         <ImageButton
             android:id="@+id/ibRight"
-            android:layout_width="45dp"
+            android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:layout_alignParentRight="true"
-            android:background="@color/white"
+            android:background="@color/transparent"
+            android:paddingRight="12dp"
             android:visibility="gone" />
 
         <ImageButton

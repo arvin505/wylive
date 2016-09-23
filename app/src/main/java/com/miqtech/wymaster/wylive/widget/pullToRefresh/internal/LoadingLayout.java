@@ -35,6 +35,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.miqtech.wymaster.wylive.R;
+import com.miqtech.wymaster.wylive.utils.L;
 import com.miqtech.wymaster.wylive.widget.pullToRefresh.LoadingLayoutBase;
 import com.miqtech.wymaster.wylive.widget.pullToRefresh.PullToRefreshBase;
 
@@ -45,6 +46,7 @@ abstract class LoadingLayout extends LoadingLayoutBase {
 	static final String LOG_TAG = "PullToRefresh-LoadingLayout";
 
 	static final Interpolator ANIMATION_INTERPOLATOR = new LinearInterpolator();
+
 
 	private FrameLayout mInnerLayout;
 
@@ -88,7 +90,6 @@ abstract class LoadingLayout extends LoadingLayoutBase {
 		switch (mode) {
 			case PULL_FROM_END:
 				lp.gravity = scrollDirection == PullToRefreshBase.Orientation.VERTICAL ? Gravity.TOP : Gravity.LEFT;
-
 				// Load in labels
 				mPullLabel = context.getString(R.string.pr_pull_to_refresh_from_bottom_refreshing_label);
 				mRefreshingLabel = context.getString(R.string.pr_pull_to_refresh_from_bottom_refreshing_label);
@@ -98,11 +99,11 @@ abstract class LoadingLayout extends LoadingLayoutBase {
 			case PULL_FROM_START:
 			default:
 				lp.gravity = scrollDirection == PullToRefreshBase.Orientation.VERTICAL ? Gravity.BOTTOM : Gravity.RIGHT;
-
 				// Load in labels
 				mPullLabel = context.getString(R.string.pull_to_refresh_pull_label);
 				mRefreshingLabel = context.getString(R.string.pr_pull_to_refresh_refreshing_label);
 				mReleaseLabel = context.getString(R.string.pr_pull_to_refresh_release_label);
+				L.e("LoadingLayout","LoadingLayoutLoadingLayoutLoadingLayout");
 				break;
 		}
 
@@ -174,7 +175,6 @@ abstract class LoadingLayout extends LoadingLayoutBase {
 
 		// Set Drawable, and save width/height
 		setLoadingDrawable(imageDrawable);
-
 		reset();
 	}
 
@@ -241,7 +241,12 @@ abstract class LoadingLayout extends LoadingLayoutBase {
 		if (null != mHeaderText) {
 			mHeaderText.setText(mPullLabel);
 		}
-		mHeaderImage.setVisibility(View.VISIBLE);
+		//TODO 影藏底部的旋转图片
+	//	if(mMode==PullToRefreshBase.Mode.PULL_FROM_START) {
+			mHeaderImage.setVisibility(View.VISIBLE);
+//		}else{
+//			mHeaderImage.setVisibility(View.GONE);
+//		}
 
 		if (mUseIntrinsicAnimation) {
 			((AnimationDrawable) mHeaderImage.getDrawable()).stop();
@@ -271,11 +276,16 @@ abstract class LoadingLayout extends LoadingLayoutBase {
 
 	public final void setLoadingDrawable(Drawable imageDrawable) {
 		// Set Drawable
-		mHeaderImage.setImageDrawable(imageDrawable);
-		mUseIntrinsicAnimation = (imageDrawable instanceof AnimationDrawable);
+		//TODO 影藏底部的旋转图片
+	//	if(mMode==PullToRefreshBase.Mode.PULL_FROM_START) {
+			mHeaderImage.setImageDrawable(imageDrawable);
+			mUseIntrinsicAnimation = (imageDrawable instanceof AnimationDrawable);
 
-		// Now call the callback 加载图片的 x  y 中心轴位置
-		onLoadingDrawableSet(imageDrawable);
+			// Now call the callback 加载图片的 x  y 中心轴位置
+			onLoadingDrawableSet(imageDrawable);
+//		}else{
+//			mHeaderImage.setVisibility(View.GONE);
+//		}
 	}
 
 	/**

@@ -63,16 +63,23 @@ public class AttentionAnchorAdapter extends BaseRecycleViewAdapter {
         if (anchorInfo.getState() == 1) {
             holder.tvAnchorState.setText("直播中");
             holder.tvAnchorState.setBackgroundResource(R.drawable.bg_rectangle_corner_solid_03);
+            holder.tvAnchorState.setVisibility(View.VISIBLE);
+            holder.tvAnchorRoom.setTextColor(mContext.getResources().getColor(R.color.attention_item_count));
+            holder.tvAnchorFans.setTextColor(mContext.getResources().getColor(R.color.attention_item_count));
         } else {
             holder.tvAnchorState.setText("已离线");
             holder.tvAnchorState.setBackgroundResource(R.drawable.bg_rectangle_corner_solid_04);
+            holder.tvAnchorState.setVisibility(View.GONE);
+            holder.tvAnchorRoom.setTextColor(mContext.getResources().getColor(R.color.attention_item_flag));
+            holder.tvAnchorFans.setTextColor(mContext.getResources().getColor(R.color.attention_item_flag));
         }
         AsyncImage.displayImage(anchorInfo.getIcon(), holder.imgAnchorHeader, R.drawable.default_head);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mItemClickListener.onItemClick(v, position);
+                if (mItemClickListener != null)
+                    mItemClickListener.onItemClick(v, position);
             }
         });
     }

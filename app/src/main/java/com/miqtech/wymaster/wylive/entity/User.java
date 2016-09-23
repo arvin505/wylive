@@ -46,6 +46,13 @@ public class User implements Serializable {
 
     private int isUpdated;
 
+    private int isUp;
+
+    private int fans ;
+
+    private int sex;
+
+
     public void setId(String id){
         this.id = id;
     }
@@ -147,6 +154,30 @@ public class User implements Serializable {
     }
     public int getIsUpdated(){
         return this.isUpdated;
+    }
+
+    public int getIsUp() {
+        return isUp;
+    }
+
+    public void setIsUp(int isUp) {
+        this.isUp = isUp;
+    }
+
+    public int getFans() {
+        return fans;
+    }
+
+    public void setFans(int fans) {
+        this.fans = fans;
+    }
+
+    public int getSex() {
+        return sex;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
     }
 
     @Override

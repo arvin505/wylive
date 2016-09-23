@@ -1,31 +1,41 @@
 package com.miqtech.wymaster.wylive.base;
 
 import android.annotation.TargetApi;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.CallSuper;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.Window;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bugtags.library.Bugtags;
 import com.miqtech.wymaster.wylive.R;
 import com.miqtech.wymaster.wylive.annotations.LayoutId;
 import com.miqtech.wymaster.wylive.annotations.Title;
+import com.miqtech.wymaster.wylive.common.IMMLeaks;
 import com.miqtech.wymaster.wylive.common.SystemBarTintManager;
 import com.miqtech.wymaster.wylive.constants.API;
 import com.miqtech.wymaster.wylive.http.Requestutil;
 import com.miqtech.wymaster.wylive.http.ResponseListener;
+import com.miqtech.wymaster.wylive.module.login.LoginActivity;
 import com.miqtech.wymaster.wylive.utils.L;
 import com.miqtech.wymaster.wylive.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 
 import org.json.JSONException;
@@ -79,11 +89,17 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity implements
     @Nullable
     TextView tvLeftTitle;
     @Nullable
+    @BindView(R.id.img_exception)
+    ImageView imgError;
+    @Nullable
+    @BindView(R.id.tvExceptionHint)
+    TextView tvError;
+    @Nullable
     @BindView(R.id.errorPage)
     LinearLayout errorPage;
 
     protected final String TAG = getClass().getSimpleName();
-    private SystemBarTintManager mTintManager;
+    protected SystemBarTintManager mTintManager;
 
     @Override
     public final void onCreate(Bundle savedInstanceState) {
@@ -103,10 +119,10 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity implements
         setTitle("");
         showBack();
         initViews(savedInstanceState);
+        IMMLeaks.fixFocusedViewLeak(getApplication());
     }
 
     @TargetApi(19)
-
     protected void setTranslucentStatus(boolean on) {
         Window win = getWindow();
         WindowManager.LayoutParams winParams = win.getAttributes();
@@ -229,6 +245,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity implements
 
 
     protected void sendHttpRequest(String url, Map<String, String> params) {
+        showLoading("加载中...");
         StringBuilder builder = new StringBuilder(API.HOST);
         Requestutil.sendPostRequest(builder.append(url).toString(), params, url, this, TAG);
     }
@@ -237,6 +254,8 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity implements
     @Override
     protected void onPause() {
         super.onPause();
+        MobclickAgent.onPause(this);
+        Bugtags.onPause(this);
         Requestutil.cancleAll(TAG);
     }
 
@@ -244,34 +263,58 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        removeLoading();
         Requestutil.remove(TAG);
     }
 
+    @CallSuper
     @Override
     public void onSuccess(JSONObject object, String method) {
+        hideLoading();
         L.e(TAG, "-------------------------------------onSuccess----------------------------------------\n"
                 + "--------------------------------------" + method + "---------------------------------------\n"
                 + "data : " + object.toString());
-
     }
 
+    @CallSuper
     @Override
     public void onError(String errMsg, String method) {
+        showLoading("加载失败！");
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideLoading();
+                    }
+                });
+            }
+        }, 300);
+        //TODO  防止空指针
+        if (TextUtils.isEmpty(errMsg)) {
+            return;
+        }
         L.e(TAG, "---------------------------------------onError-------------------------------\n"
                 + "-------------------------------------" + method + "---------------------------------\n"
                 + "data : " + errMsg);
     }
 
+    @CallSuper
     @Override
     public void onFaild(JSONObject object, String method) {
+        hideLoading();
         L.e(TAG, "-------------------------------onFaild------------------------------\n"
                 + "----------------------------" + method + "----------------------------------\n"
                 + "data : " + object.toString());
         try {
             if (object.getInt("code") == -1) {
-                showToast(object.getString("result"));
                 // FIXME: 2016/8/17
-                //跳转至登陆界面
+                if (!unNecessaryLogin(method)) {
+                    showToast(object.getString("result"));
+                    jumpToActivityForResult(LoginActivity.class, 1);
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -291,8 +334,16 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity implements
         startActivity(intent);
     }
 
+    protected void jumpToActivity(@NonNull Intent intent) {
+        startActivity(intent);
+    }
+
     protected void jumpToActivityForResult(@Nullable Class clazz, int requestCode) {
         jumpToActivityForResult(clazz, requestCode, null);
+    }
+
+    protected void jumpToActivityForResult(@Nullable Intent intent, int requestCode) {
+        startActivityForResult(intent, requestCode);
     }
 
     protected void jumpToActivityForResult(@Nullable Class clazz, int requestCode, Bundle bundle) {
@@ -304,8 +355,74 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity implements
         startActivityForResult(intent, requestCode);
     }
 
-    public final void showErrorView(boolean show) {
-        if (errorPage == null) return;
-        errorPage.setVisibility(show ? View.VISIBLE : View.GONE);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Bugtags.onResume(this);
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        Bugtags.onDispatchTouchEvent(this, ev);
+        return super.dispatchTouchEvent(ev);
+    }
+
+    private boolean unNecessaryLogin(String api) {
+        List<String> apis = Arrays.asList(getResources().getStringArray(R.array.login_unnecessary));
+        if (apis.contains(api)) return true;
+        return false;
+    }
+
+
+    private Dialog mLoadingDialog;
+
+    @UiThread
+    public void showLoading(String msg) {
+        try {
+            if (mLoadingDialog == null) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.Loading);
+                builder.setView(R.layout.layout_loading);
+                mLoadingDialog = builder.create();
+            } else {
+                if (!TextUtils.isEmpty(msg)) {
+                    TextView tv = (TextView) mLoadingDialog.findViewById(R.id.loading_msg);
+                    tv.setText(msg);
+                }
+            }
+            mLoadingDialog.setCanceledOnTouchOutside(false);
+            mLoadingDialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @UiThread
+    public void hideLoading() {
+        if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
+            mLoadingDialog.hide();
+        }
+    }
+
+    public void removeLoading() {
+        if (mLoadingDialog != null) {
+            mLoadingDialog.dismiss();
+            mLoadingDialog = null;
+        }
+    }
+
+    protected void showErrorPage(String errMsg, @DrawableRes int resID) {
+        errorPage.setVisibility(View.VISIBLE);
+        if (errMsg != null) {
+            tvError.setText(errMsg);
+        }
+        if (resID != 0) {
+            imgError.setImageResource(resID);
+        }
+    }
+
+    protected void hideErrorPage() {
+        errorPage.setVisibility(View.GONE);
     }
 }

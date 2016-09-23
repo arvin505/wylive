@@ -11,6 +11,7 @@
 
     <com.miqtech.wymaster.wylive.widget.pullToRefresh.PullToRefreshRecyclerView
         android:id="@+id/ptr_search_anchor"
+        android:paddingTop="10dp"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:layout_width="match_parent"

@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.CallSuper;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
@@ -13,6 +16,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.miqtech.wymaster.wylive.R;
@@ -21,11 +26,16 @@ import com.miqtech.wymaster.wylive.annotations.Title;
 import com.miqtech.wymaster.wylive.constants.API;
 import com.miqtech.wymaster.wylive.http.Requestutil;
 import com.miqtech.wymaster.wylive.http.ResponseListener;
+import com.miqtech.wymaster.wylive.module.login.LoginActivity;
 import com.miqtech.wymaster.wylive.utils.L;
 import com.miqtech.wymaster.wylive.utils.ToastUtils;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -50,7 +60,15 @@ public abstract class BaseFragment extends Fragment implements ResponseListener 
     @BindView(R.id.tvLeftTitle)
     @Nullable
     TextView tvLeftTitle;
-
+    @Nullable
+    @BindView(R.id.img_exception)
+    ImageView imgError;
+    @Nullable
+    @BindView(R.id.tvExceptionHint)
+    TextView tvError;
+    @Nullable
+    @BindView(R.id.errorPage)
+    LinearLayout errorPage;
 
     @Override
     public final void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,30 +111,60 @@ public abstract class BaseFragment extends Fragment implements ResponseListener 
     }
 
     public void sendHttpRequest(String url, Map<String, String> params) {
+        showLoading("加载中...");
         StringBuilder builder = new StringBuilder(API.HOST);
         Requestutil.sendPostRequest(builder.append(url).toString(), params, url, this, TAG);
     }
 
+    @CallSuper
     @Override
     public void onSuccess(JSONObject object, String method) {
+        hideLoading();
         L.e(TAG, "-------------------------------------onSuccess----------------------------------------\n"
                 + "--------------------------------------" + method + "---------------------------------------\n"
                 + "data : " + object.toString());
-
     }
 
+    @CallSuper
     @Override
     public void onError(String errMsg, String method) {
         L.e(TAG, "---------------------------------------onError-------------------------------\n"
                 + "-------------------------------------" + method + "---------------------------------\n"
                 + "data : " + errMsg);
+        showLoading("加载失败！");
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideLoading();
+                    }
+                });
+            }
+        }, 300);
     }
 
+    @CallSuper
     @Override
     public void onFaild(JSONObject object, String method) {
         L.e(TAG, "-------------------------------onFaild------------------------------\n"
                 + "----------------------------" + method + "----------------------------------\n"
                 + "data : " + object.toString());
+        hideLoading();
+        try {
+            if (object.getInt("code") == -1) {
+                // FIXME: 2016/8/17
+                if (!unNecessaryLogin(method)) {
+                    showToast(object.getString("result"));
+                    jumpToActivityForResult(LoginActivity.class, 1);
+                }
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void jumpToActivity(@NonNull Class clazz) {
@@ -190,8 +238,32 @@ public abstract class BaseFragment extends Fragment implements ResponseListener 
         ToastUtils.show(resId, duration);
     }
 
-    public void showErrorView(boolean show) {
-        mActivity.showErrorView(show);
+
+    private boolean unNecessaryLogin(String api) {
+        List<String> apis = Arrays.asList(getActivity().getResources().getStringArray(R.array.login_unnecessary));
+        if (apis.contains(api)) return true;
+        return false;
     }
 
+    protected void showLoading(String str) {
+        mActivity.showLoading(str);
+    }
+
+    protected void hideLoading() {
+        mActivity.hideLoading();
+    }
+
+    protected void showErrorPage(String errMsg, @DrawableRes int resID) {
+        errorPage.setVisibility(View.VISIBLE);
+        if (errMsg != null) {
+            tvError.setText(errMsg);
+        }
+        if (resID != 0) {
+            imgError.setImageResource(resID);
+        }
+    }
+
+    protected void hideErrorPage() {
+        errorPage.setVisibility(View.GONE);
+    }
 }

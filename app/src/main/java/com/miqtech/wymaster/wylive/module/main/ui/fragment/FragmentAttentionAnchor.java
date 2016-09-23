@@ -1,10 +1,11 @@
 package com.miqtech.wymaster.wylive.module.main.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.print.PageRange;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -17,9 +18,11 @@ import com.miqtech.wymaster.wylive.constants.API;
 import com.miqtech.wymaster.wylive.entity.AnchorInfo;
 import com.miqtech.wymaster.wylive.entity.LiveTypeInfo;
 import com.miqtech.wymaster.wylive.entity.User;
-import com.miqtech.wymaster.wylive.module.LoginActivity;
+import com.miqtech.wymaster.wylive.module.live.LiveRoomActivity;
+import com.miqtech.wymaster.wylive.module.login.LoginActivity;
 import com.miqtech.wymaster.wylive.module.main.ui.adapter.AttentionAnchorAdapter;
-import com.miqtech.wymaster.wylive.proxy.UserEventDispatcher;
+import com.miqtech.wymaster.wylive.observer.Observerable;
+import com.miqtech.wymaster.wylive.observer.ObserverableType;
 import com.miqtech.wymaster.wylive.proxy.UserProxy;
 import com.miqtech.wymaster.wylive.widget.pullToRefresh.PullToRefreshBase;
 import com.miqtech.wymaster.wylive.widget.pullToRefresh.PullToRefreshRecyclerView;
@@ -38,7 +41,7 @@ import butterknife.BindView;
  * 关注主播列表
  */
 @LayoutId(R.layout.fragment_attention_anchor)
-public class FragmentAttentionAnchor extends BaseFragment implements RecycleViewItemClickListener {
+public class FragmentAttentionAnchor extends BaseFragment implements RecycleViewItemClickListener, UserProxy.OnUserChangeListener, Observerable.ISubscribe {
     @BindView(R.id.ptr_attention_anchor)
     PullToRefreshRecyclerView ptrAttenAnchor;
 
@@ -46,23 +49,26 @@ public class FragmentAttentionAnchor extends BaseFragment implements RecycleView
 
     LinearLayoutManager layoutManager;
 
-    List<AnchorInfo> mDatas;
+    List<AnchorInfo> mDatas = new ArrayList<>();
 
     AttentionAnchorAdapter mAdapter;
 
     private String type = "1";
     private int page = 1;
     private int pageSize = 12;
+    private int isLast = 0;
+
+    private boolean first = true;
 
     @Override
     protected void initViews(View view, Bundle savedInstanceState) {
-
+        UserProxy.addListener(this);
         rvAttenAnchor = ptrAttenAnchor.getRefreshableView();
         layoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false);
 
         rvAttenAnchor.setLayoutManager(layoutManager);
 
-        generateData();
+        //generateData();
 
         mAdapter = new AttentionAnchorAdapter(mActivity, mDatas);
 
@@ -70,7 +76,6 @@ public class FragmentAttentionAnchor extends BaseFragment implements RecycleView
         rvAttenAnchor.addItemDecoration(new DividerGridItemDecoration(mActivity));
         mAdapter.setOnItemClickListener(this);
 
-        loadAttenAnchorData();
         ptrAttenAnchor.setMode(PullToRefreshBase.Mode.BOTH);
         ptrAttenAnchor.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<RecyclerView>() {
             @Override
@@ -81,15 +86,30 @@ public class FragmentAttentionAnchor extends BaseFragment implements RecycleView
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
-                page++;
-                loadAttenAnchorData();
+                if (isLast == 1) {
+                    ptrAttenAnchor.onRefreshComplete();
+                    showToast("已经到底啦");
+                } else {
+                    page++;
+                    loadAttenAnchorData();
+                }
             }
 
             @Override
             public void isHasNetWork(boolean isHasNetWork) {
+
             }
         });
+        Observerable.getInstance().subscribe(ObserverableType.ATTENTION_ANCHOR, this);
+    }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && first) {
+            loadAttenAnchorData();
+            first = false;
+        }
     }
 
     private void generateData() {
@@ -116,6 +136,8 @@ public class FragmentAttentionAnchor extends BaseFragment implements RecycleView
             params.put("pageSize", pageSize + "");
             sendHttpRequest(API.LIVE_SUBCRIBELIST, params);
         } else {
+            if (ptrAttenAnchor != null)
+                ptrAttenAnchor.onRefreshComplete();
             jumpToActivity(LoginActivity.class);
         }
     }
@@ -128,8 +150,8 @@ public class FragmentAttentionAnchor extends BaseFragment implements RecycleView
             Gson gson = new Gson();
             switch (method) {
                 case API.LIVE_SUBCRIBELIST:
-                    List<AnchorInfo> data = gson.fromJson(object.getJSONObject("object").getJSONObject("list")
-                                    .getJSONArray("liveUp").toString(),
+                    List<AnchorInfo> data = gson.fromJson(object.getJSONObject("object")
+                                    .getJSONArray("list").toString(),
                             new TypeToken<List<AnchorInfo>>() {
                             }.getType());
                     if (page == 1) {
@@ -140,6 +162,17 @@ public class FragmentAttentionAnchor extends BaseFragment implements RecycleView
                         mAdapter.notifyDataSetChanged();
                     } else {
                         mAdapter.notifyItemInserted(mAdapter.getItemCount());
+                    }
+                    isLast = object.getJSONObject("object").getInt("isLast");
+                    if (data == null || data.isEmpty()) {
+                        if (page > 1) {
+                            page--;
+                        }
+                    }
+                    if (mDatas == null || mDatas.isEmpty()) {
+                        showErrorPage("快去关注喜欢的主播吧", 0);
+                    } else {
+                        hideErrorPage();
                     }
                     break;
             }
@@ -163,8 +196,44 @@ public class FragmentAttentionAnchor extends BaseFragment implements RecycleView
 
     @Override
     public void onItemClick(View view, int position) {
-        showToast("click : " + position);
+        // if (mDatas.get(position).getState() == 1) {
+        Intent intent = new Intent(mActivity, LiveRoomActivity.class);
+        intent.putExtra("id", mDatas.get(position).getId() + "");
+        startActivity(intent);
+        /*} else {
+            showToast("主播不在线，去看其他直播吧");
+        }*/
     }
 
 
+    @Override
+    public void onUserChange(User user) {
+        if (user != null) {
+            loadAttenAnchorData();
+        } else {
+            mDatas.clear();
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        UserProxy.removeListener(this);
+        Observerable.getInstance().unSubscribe(ObserverableType.ATTENTION_ANCHOR, this);
+        super.onDestroy();
+    }
+
+    @Override
+    public <T> void update(T... data) {
+        AnchorInfo info = (AnchorInfo) data[0];
+        for (int i = 0; i < mDatas.size(); i++) {
+            if (mDatas.get(i).getId().equals(info.getId())) {
+                mDatas.remove(i);
+                mAdapter.notifyDataSetChanged();
+                return;
+            }
+        }
+        mDatas.add(info);
+        mAdapter.notifyItemInserted(mAdapter.getItemCount());
+    }
 }

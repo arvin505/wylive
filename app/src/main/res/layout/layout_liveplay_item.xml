@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_live_black_bg">
+        android:background="@drawable/selector_attention_anchor_item">
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,15 +18,15 @@
             android:id="@+id/ivLivePlayPoster"
             android:layout_width="match_parent"
             android:layout_height="97dp"
-            android:scaleType="centerCrop"
             android:src="@drawable/default_img"
             app:riv_corner_radius_top_left="2.5dp"
             app:riv_corner_radius_top_right="2.5dp"/>
         <TextView
+            android:id="@+id/tvGameName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
-            android:drawableLeft="@drawable/live_play_more"
+            android:drawableLeft="@drawable/banner_select"
             android:drawablePadding="5dp"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
@@ -64,12 +64,13 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/anchorHeader"
                     android:layout_alignRight="@id/anchorHeader"
-                    android:scaleType="centerCrop"
+                    android:scaleType="fitXY"
+
                     android:src="@drawable/live_play_men" />
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/tvGameName"
+                android:id="@+id/tvNickName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -78,7 +79,7 @@
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:layout_toRightOf="@id/rlAnchorHeader"
-                android:text="我爱我姥姥"
+                android:text=""
                 android:textColor="@color/hall_font_gray"
                 android:textSize="@dimen/text_size_10" />
         </RelativeLayout>

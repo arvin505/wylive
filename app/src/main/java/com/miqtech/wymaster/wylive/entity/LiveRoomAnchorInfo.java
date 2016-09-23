@@ -1,0 +1,189 @@
+package com.miqtech.wymaster.wylive.entity;
+
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
+/**
+ * Created by admin on 2016/8/6.
+ */
+public class LiveRoomAnchorInfo implements Serializable {
+    @SerializedName("comment_num")
+   private int commentNum; //评论数
+    private int fans;//粉丝数
+    private String icon;//主播头像
+    private String introduce;//介绍
+    @SerializedName("is_subscibe")
+    private int isSubscibe;//是否已订阅
+    private String nickname;//直播昵称
+    private int onlineNum ;//在线人数
+    private String rtmp;//播放地址
+    private int screen;//0宽屏1竖屏
+    @SerializedName("up_user_id")
+    private int upUserId; //主播的id
+    private String title; //标题
+    private int sex;//0  男 1 女
+    @SerializedName("can_share")
+    private int canShare; //能否分享 0 不能 1 能
+    @SerializedName("share_url")
+    private String shareUrl; //分享地址
+    private int source ;//0 ios 1安卓
+    private String id;  //房间id
+    @SerializedName("room_id")
+    private String room;
+    @SerializedName("user_icon")
+    private String userIcon; //用户头像
+    private int state;
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public String getUserIcon() {
+        return userIcon;
+    }
+
+    public void setUserIcon(String userIcon) {
+        this.userIcon = userIcon;
+    }
+
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public int getSource() {
+        return source;
+    }
+
+    public void setSource(int source) {
+        this.source = source;
+    }
+
+    public int getCanShare() {
+        return canShare;
+    }
+
+    public void setCanShare(int canShare) {
+        this.canShare = canShare;
+    }
+
+    public String getShareUrl() {
+        return shareUrl;
+    }
+
+    public void setShareUrl(String shareUrl) {
+        this.shareUrl = shareUrl;
+    }
+
+    public int getSex() {
+        return sex;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getUpUserId() {
+        return upUserId;
+    }
+
+    public void setUpUserId(int upUserId) {
+        this.upUserId = upUserId;
+    }
+
+    public int getCommentNum() {
+        return commentNum;
+    }
+
+    public void setCommentNum(int commentNum) {
+        this.commentNum = commentNum;
+    }
+
+    public int getFans() {
+        return fans;
+    }
+
+    public void setFans(int fans) {
+        this.fans = fans;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getIntroduce() {
+        return introduce;
+    }
+
+    public void setIntroduce(String introduce) {
+        this.introduce = introduce;
+    }
+
+    public int getIsSubscibe() {
+        return isSubscibe;
+    }
+
+    public void setIsSubscibe(int isSubscibe) {
+        this.isSubscibe = isSubscibe;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public int getOnlineNum() {
+        return onlineNum;
+    }
+
+    public void setOnlineNum(int onlineNum) {
+        this.onlineNum = onlineNum;
+    }
+
+    public String getRtmp() {
+        return rtmp;
+    }
+
+    public void setRtmp(String rtmp) {
+        this.rtmp = rtmp;
+    }
+
+    public int getScreen() {
+        return screen;
+    }
+
+    public void setScreen(int screen) {
+        this.screen = screen;
+    }
+}

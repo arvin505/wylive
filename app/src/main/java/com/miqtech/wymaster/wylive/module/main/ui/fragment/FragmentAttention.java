@@ -47,7 +47,6 @@ public class FragmentAttention extends BaseFragment {
         });
     }
 
-
     @OnClick({R.id.btn_atten_anchor, R.id.btn_atten_game})
     public void onClick(View view) {
         switch (view.getId()) {

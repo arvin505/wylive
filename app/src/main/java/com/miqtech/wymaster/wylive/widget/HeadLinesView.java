@@ -47,7 +47,6 @@ public class HeadLinesView<T> extends FrameLayout {
      * @param feedList
      */
     public void refreshData(List<T> feedList) {
-        L.e("ImagePagerAdapter","大小"+feedList.size());
         if (feedList == null || feedList.isEmpty()) {
             return;
         }
@@ -60,7 +59,6 @@ public class HeadLinesView<T> extends FrameLayout {
         mViewPager.requestFocus();
         initDots(list);
         this.setVisibility(VISIBLE);
-        L.e("ImagePagerAdapter","URL:::显示View");
     }
 
     /**

@@ -1,10 +1,18 @@
 package com.miqtech.wymaster.wylive.module.main.ui.adapter;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.BounceInterpolator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,8 +22,10 @@ import com.miqtech.wymaster.wylive.entity.LiveCategory;
 import com.miqtech.wymaster.wylive.entity.LiveTypeInfo;
 import com.miqtech.wymaster.wylive.utils.DeviceUtils;
 import com.miqtech.wymaster.wylive.utils.imageloader.AsyncImage;
+import com.miqtech.wymaster.wylive.widget.infiniteviewpager.InfinitePagerAdapter;
 import com.miqtech.wymaster.wylive.widget.roundImageView.RoundedImageView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -40,6 +50,12 @@ public class LiveCategoryAdapter extends BaseRecycleViewAdapter {
         this.mContext = context;
         this.mData = data;
         mInflater = LayoutInflater.from(mContext);
+    }
+
+    private boolean visible;
+
+    public void setItemVisible(boolean visible) {
+        this.visible = visible;
     }
 
     @Override
@@ -128,17 +144,19 @@ public class LiveCategoryAdapter extends BaseRecycleViewAdapter {
         List<LiveTypeInfo> recents = mData.getHistory();
         for (int i = 0; i < 3; i++) {
             View itemView = mInflater.inflate(R.layout.layout_livecategory_item, null);
+            CardView cardView = (CardView) ((ViewGroup)itemView).getChildAt(0);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             params.weight = 1;
             itemView.setLayoutParams(params);
             llContent.addView(itemView);
             if (i >= recents.size()) {
-                itemView.setVisibility(View.INVISIBLE);
                 itemView.setClickable(false);
+                cardView.setVisibility(View.INVISIBLE);
             } else {
-                itemView.setVisibility(View.VISIBLE);
                 itemView.setClickable(true);
+                cardView.setVisibility(View.VISIBLE);
             }
+            itemView.setVisibility(View.INVISIBLE);
         }
         return convertView;
     }
@@ -166,6 +184,7 @@ public class LiveCategoryAdapter extends BaseRecycleViewAdapter {
                     }
                 }
             });
+
         }
     }
 
@@ -181,6 +200,7 @@ public class LiveCategoryAdapter extends BaseRecycleViewAdapter {
                 mItemClickListener.onItemClick(v, pos);
             }
         });
+        holder.itemView.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
     }
 
 
@@ -222,5 +242,37 @@ public class LiveCategoryAdapter extends BaseRecycleViewAdapter {
 
     public void setOnRecentItemClickListener(OnRecentItemClickListener listener) {
         this.mRecentListener = listener;
+    }
+
+    public void animeRecent(ViewGroup viewGroup) {
+        ViewGroup content = (ViewGroup) viewGroup.findViewById(R.id.llRecentContent);
+        if (content == null) return;
+        recycleAnimate(content);
+    }
+
+    private void recycleAnimate(ViewGroup group) {
+        if (group == null || group.getChildCount() == 0) return;
+        int childCount = group.getChildCount();
+        AnimatorSet set = new AnimatorSet();
+        List<Animator> animators = new ArrayList<>(20);
+
+        for (int i = 0; i < childCount; i++) {
+            final View child = group.getChildAt(i);
+            PropertyValuesHolder pvhx = PropertyValuesHolder.ofFloat("scaleX", 0.4f, 1f);
+            PropertyValuesHolder pvhy = PropertyValuesHolder.ofFloat("scaleY", 0.4f, 1f);
+            ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(child, pvhx, pvhy);
+            animator.setStartDelay(i * 40);
+            animator.setInterpolator(new BounceInterpolator());
+            animator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    child.setVisibility(View.VISIBLE);
+                }
+            });
+            animators.add(animator);
+        }
+        set.setDuration(1000);
+        set.playTogether(animators);
+        set.start();
     }
 }

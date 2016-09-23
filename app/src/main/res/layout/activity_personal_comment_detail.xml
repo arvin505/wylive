@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/live_category_bg"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
+
+    <include
+        android:id="@+id/personal_comment_head"
+        layout="@layout/layout_include_header" />
+
+
+    <LinearLayout
+        android:id="@+id/buttom_send_personal_comment"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:orientation="horizontal"
+            android:paddingLeft="12dp">
+
+            <EditText
+                android:id="@+id/edtComment"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:background="@drawable/shape_comment_bg"
+                android:maxLength="200"
+                android:maxLines="3"
+                android:textColor="@color/category_item_count"
+                android:textColorHint="@color/category_item_count"
+                android:textCursorDrawable="@null"
+                android:textSize="13sp"
+                android:paddingLeft="10dp"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvSend"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:text="发送"
+                    android:textColor="@color/category_item_title"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tvNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:textColor="@color/category_item_title"
+                    android:textSize="10sp"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <com.miqtech.wymaster.wylive.widget.pullToRefresh.PullToRefreshScrollView
+        android:id="@+id/refresh_personal_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/buttom_send_personal_comment"
+        android:layout_below="@id/personal_comment_head">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/comment_include"
+                layout="@layout/layout_comment_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+            <com.miqtech.wymaster.wylive.widget.MyListView
+                android:id="@+id/myListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"
+                android:layout_marginLeft="42dp"
+                android:dividerHeight="0dp"
+                android:divider="@color/colorPrimary"
+                android:background="@color/colorPrimary"></com.miqtech.wymaster.wylive.widget.MyListView>
+        </LinearLayout>
+    </com.miqtech.wymaster.wylive.widget.pullToRefresh.PullToRefreshScrollView>
+
+
+</RelativeLayout>

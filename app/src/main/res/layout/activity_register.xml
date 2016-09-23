@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_background"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true">
+
+
+    <FrameLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentTop="true"
+        android:paddingRight="12dp">
+
+        <LinearLayout
+            android:id="@+id/back"
+            android:layout_width="45dp"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back_white" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:text="@string/register_user"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_18" />
+
+        <TextView
+            android:id="@+id/rightTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_gravity="right|center_vertical"
+            android:gravity="center"
+            android:text="@string/changge_phone"
+            android:textColor="@color/attention_item_count"
+            android:textSize="@dimen/text_size_14"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/registerLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logo" />
+
+    <com.miqtech.wymaster.wylive.widget.MyPagerView
+        android:id="@+id/myPagerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/registerLogo"
+        android:layout_marginTop="65dp"></com.miqtech.wymaster.wylive.widget.MyPagerView>
+
+</RelativeLayout>

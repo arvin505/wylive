@@ -6,11 +6,14 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.PixelFormat;
 import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Build;
@@ -33,6 +36,7 @@ import com.miqtech.wymaster.wylive.module.screenrecorder.ui.ScreenRecorderActivi
 import com.miqtech.wymaster.wylive.utils.DeviceUtils;
 import com.miqtech.wymaster.wylive.utils.L;
 import com.miqtech.wymaster.wylive.utils.ToastUtils;
+import com.miqtech.wymaster.wylive.utils.Utils;
 import com.pili.pldroid.streaming.EncodingType;
 import com.pili.pldroid.streaming.StreamingManager;
 import com.pili.pldroid.streaming.StreamingProfile;
@@ -52,7 +56,7 @@ import java.nio.ByteBuffer;
  * 直播推流服务
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class PiliPushService extends Service implements StreamingStateListener, ScreenRecorder.ScreenRecorderListener {
+public class PiliPushService extends Service implements ScreenRecorder.ScreenRecorderListener, StreamingStateListener {
     /**
      * 默认视频尺寸1280 * 720
      */
@@ -87,7 +91,6 @@ public class PiliPushService extends Service implements StreamingStateListener, 
     private MediaProjectionManager mMediaProjectionManaer;
     private ScreenRecorder mScreenRecorder;
 
-    private WeakReference<MediaProjection> mWeakReference;
 
     /**
      * 音频设置
@@ -115,6 +118,8 @@ public class PiliPushService extends Service implements StreamingStateListener, 
      * 防止被kill
      */
     private NotificationManager mNManager;
+
+    private WeakReference<MediaProjection> mWeakReference;
 
     @Nullable
     @Override
@@ -166,7 +171,7 @@ public class PiliPushService extends Service implements StreamingStateListener, 
         Notification notification = builder.build();
         notification.flags = Notification.FLAG_NO_CLEAR;
         startForeground(1, notification);
-
+        registerReceiver(receiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         return START_STICKY;
     }
 
@@ -181,7 +186,6 @@ public class PiliPushService extends Service implements StreamingStateListener, 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         streamingProfile = new StreamingProfile();
         streamingProfile
                 .setAudioQuality(StreamingProfile.AUDIO_QUALITY_MEDIUM1)
@@ -204,14 +208,18 @@ public class PiliPushService extends Service implements StreamingStateListener, 
 
     @Override
     public void frameAvailable(boolean endOfStream) {
-        long currentMills = System.currentTimeMillis();
-        if (currentMills - lastSystemMills > frameInteval) {
-            if (mStreamingManager != null) {
-                mStreamingManager.frameAvailable(endOfStream);
-                lastSystemMills = currentMills;
+        try {
+            long currentMills = System.currentTimeMillis();
+            if (currentMills - lastSystemMills > frameInteval) {
+                if (mStreamingManager != null) {
+                    mStreamingManager.frameAvailable(endOfStream);
+                    lastSystemMills = currentMills;
+                }
+            } else {
+                //   L.e(TAG, "frame return ----------    " + (currentMills - lastSystemMills));
             }
-        } else {
-            L.e(TAG, "frame return ----------    " + (currentMills - lastSystemMills));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -235,6 +243,7 @@ public class PiliPushService extends Service implements StreamingStateListener, 
     @Override
     public void onStateChanged(StreamingState streamingState, Object o) {
         L.e(TAG, "streamingState:" + streamingState);
+       // ToastUtils.show("streamingState " + streamingState,30000);
         switch (streamingState) {
             case READY:
                 if (!isStreaming) {
@@ -249,7 +258,12 @@ public class PiliPushService extends Service implements StreamingStateListener, 
                 }
                 break;
             case IOERROR:
-                ToastUtils.show("网络错误");
+                try {
+                    ToastUtils.show("网络错误");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 break;
 
         }
@@ -303,12 +317,16 @@ public class PiliPushService extends Service implements StreamingStateListener, 
      * 停止推流
      */
     public void stopPush() {
-        isStreaming = false;
-        if (mStreamingManager != null) {
-            mStreamingManager.stopStreaming();
-            mStreamingManager.pause();
+        try {
+            isStreaming = false;
+            if (mStreamingManager != null) {
+                mStreamingManager.stopStreaming();
+                mStreamingManager.pause();
 
-            mStreamingManager.destroy();
+                mStreamingManager.destroy();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         removeFloatView();
     }
@@ -451,4 +469,15 @@ public class PiliPushService extends Service implements StreamingStateListener, 
     public void releaseActivity() {
         mActivity = null;
     }
+
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Utils.checkNetworkState() == 0 && isStreaming()) {
+                stopPush();
+                ToastUtils.show("网络连接已断开，直播停止");
+            }
+        }
+    };
+
 }

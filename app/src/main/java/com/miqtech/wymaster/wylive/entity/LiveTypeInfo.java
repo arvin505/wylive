@@ -8,7 +8,18 @@ import com.google.gson.annotations.SerializedName;
 public class LiveTypeInfo {
     private String icon; //图片
 
+    @SerializedName(value = "name", alternate = {"game_name"})
     private String name;
+
+    @SerializedName(value = "comment_num")
+    private int commentNum;
+
+
+    @SerializedName(value = "background_icon")
+    private String poster;
+
+    @SerializedName(value = "has_favor")
+    private int hasFavor;
 
     @SerializedName("video_num")
     private int videoNum; //视频数
@@ -20,6 +31,22 @@ public class LiveTypeInfo {
 
     public String getIcon() {
         return icon;
+    }
+
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
+
+    public int getHasFavor() {
+        return hasFavor;
+    }
+
+    public void setHasFavor(int hasFavor) {
+        this.hasFavor = hasFavor;
     }
 
     public void setIcon(String icon) {

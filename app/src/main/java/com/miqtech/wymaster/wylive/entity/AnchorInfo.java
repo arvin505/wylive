@@ -11,10 +11,24 @@ public class AnchorInfo {
     private String name;
     @SerializedName("room_id")
     private String room;
+    @SerializedName("live_id")
+    private String liveId;
+
+    public String getLiveId() {
+        return liveId;
+    }
+
+    public void setLiveId(String liveId) {
+        this.liveId = liveId;
+    }
+
     private String id;
     private int state;
     private int fans;
+    @SerializedName(value = "icon", alternate = {"user_icon"})
     private String icon;
+    int duration;
+    int live_times;
 
     public String getName() {
         return name;
@@ -62,5 +76,21 @@ public class AnchorInfo {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public int getLive_times() {
+        return live_times;
+    }
+
+    public void setLive_times(int live_times) {
+        this.live_times = live_times;
     }
 }

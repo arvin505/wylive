@@ -8,6 +8,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.miqtech.wymaster.wylive.WYLiveApp;
+import com.miqtech.wymaster.wylive.utils.L;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,13 +42,9 @@ public class VolleyRequest implements Request {
                     e.printStackTrace();
                 }
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                callback.onError(volleyError.getMessage(), method);
-            }
-        }, parmams);
-        request.setRetryPolicy(new DefaultRetryPolicy(4 * 1000, 0, 1.0f));   //设置超时，重发
+        }, callback
+                , parmams,method);
+        request.setRetryPolicy(new DefaultRetryPolicy(10 * 1000, 0, 1.0f));   //设置超时，重发
         request.setTag(requetTag);
         mRequestQueue.add(request);
         addRequestTag(request, requetTag);
@@ -82,7 +79,6 @@ public class VolleyRequest implements Request {
             List<NormalPostRequest> requests = requestMap.get(tag);
             for (NormalPostRequest request : requests) {
                 request.mListener = null;
-                request.mErrorListener = null;
                 request.mParams = null;
                 request = null;
             }

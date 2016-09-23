@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/live_category_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+   <include layout="@layout/layout_include_header"></include>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="30dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnVideoHot"
+                android:layout_width="75dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_anchor_selected"
+                android:text="@string/live_video_hot"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/btnVideoNew"
+                android:layout_width="75dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_game_unselected"
+                android:padding="0dp"
+                android:text="@string/live_video_new"
+                android:textColor="@color/bar_text_selected"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp" />
+
+    </LinearLayout>
+</LinearLayout>

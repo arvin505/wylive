@@ -1,5 +1,6 @@
 package com.miqtech.wymaster.wylive.proxy;
 
+
 import com.miqtech.wymaster.wylive.WYLiveApp;
 import com.miqtech.wymaster.wylive.entity.User;
 import com.miqtech.wymaster.wylive.utils.CloseUtil;
@@ -8,6 +9,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by xiaoyi on 2016/8/15.
@@ -37,7 +40,8 @@ public class UserProxy {
         if (mUser == null) {
             UserEventDispatcher.setUserState(new UserLogoutState());
         }
-        writeUser(user);
+        writeUser(mUser);
+        notifyUserChanged(mUser);
     }
 
     private static void writeUser(User user) {
@@ -53,7 +57,6 @@ public class UserProxy {
             CloseUtil.close(oos);
             CloseUtil.close(fos);
         }
-
     }
 
     private static User readUser() {
@@ -70,5 +73,51 @@ public class UserProxy {
             CloseUtil.close(fis);
         }
         return null;
+    }
+
+    /**
+     * 监听user改变
+     */
+    public interface OnUserChangeListener {
+        void onUserChange(User user);
+    }
+
+    private static List<OnUserChangeListener> mUserChangeListeners;
+
+    /**
+     * 添加userchangelistener
+     *
+     * @param listener
+     */
+    public static void addListener(OnUserChangeListener listener) {
+        if (mUserChangeListeners == null) {
+            synchronized (UserProxy.class) {
+                if (mUserChangeListeners == null) {
+                    mUserChangeListeners = new ArrayList<>();
+                }
+            }
+        }
+        mUserChangeListeners.add(listener);
+    }
+
+    public static void removeListener(OnUserChangeListener listener) {
+        if (mUserChangeListeners == null) return;
+        if (mUserChangeListeners.contains(listener)) {
+            mUserChangeListeners.remove(listener);
+            listener = null;
+        }
+    }
+
+    private static void notifyUserChanged(User user) {
+        if (mUserChangeListeners == null) return;
+        for (OnUserChangeListener listener : mUserChangeListeners) {
+            listener.onUserChange(user);
+        }
+    }
+
+    public static void removeAllListener() {
+        if (mUserChangeListeners == null) return;
+        mUserChangeListeners.clear();
+        mUserChangeListeners = null;
     }
 }

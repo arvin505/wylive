@@ -40,13 +40,13 @@ public class SearchAnchorActivity extends BaseAppCompatActivity implements Recyc
 
     LinearLayoutManager layoutManager;
 
-    List<AnchorInfo> mDatas;
+    List<AnchorInfo> mDatas = new ArrayList<>();
 
     AttentionAnchorAdapter mAdapter;
 
     private int isLast = 0;
 
-    private String TYPE = "4";
+    private String TYPE = "5";
     private int page = 1;
     private int pageSize = 12;
     private String key;
@@ -56,11 +56,8 @@ public class SearchAnchorActivity extends BaseAppCompatActivity implements Recyc
         key = getIntent().getExtras().getString("key");
         rvSearchAnchor = ptrSearchAnchor.getRefreshableView();
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-
         rvSearchAnchor.setLayoutManager(layoutManager);
-
-        generateData();
-
+        search(key);
         mAdapter = new AttentionAnchorAdapter(this, mDatas);
 
         rvSearchAnchor.setAdapter(mAdapter);
@@ -117,7 +114,7 @@ public class SearchAnchorActivity extends BaseAppCompatActivity implements Recyc
         params.put("page", page + "");
         params.put("pageSize", pageSize + "");
         params.put("type", TYPE);
-        sendHttpRequest(API.CATEGORY, params);
+        sendHttpRequest(API.SEARCH, params);
     }
 
     @Override
@@ -127,7 +124,7 @@ public class SearchAnchorActivity extends BaseAppCompatActivity implements Recyc
         try {
             Gson gson = new Gson();
             switch (method) {
-                case API.LIVE_SUBCRIBELIST:
+                case API.SEARCH:
                     List<AnchorInfo> data = gson.fromJson(object.getJSONObject("object").getJSONObject("liveUp").getJSONArray("list")
                                     .toString(),
                             new TypeToken<List<AnchorInfo>>() {
@@ -141,6 +138,7 @@ public class SearchAnchorActivity extends BaseAppCompatActivity implements Recyc
                     } else {
                         mAdapter.notifyItemInserted(mAdapter.getItemCount());
                     }
+                    isLast = object.getJSONObject("object").getJSONObject("liveUp").getInt("isLast");
                     if (data == null || data.isEmpty()) {
                         if (page > 1) {
                             page--;

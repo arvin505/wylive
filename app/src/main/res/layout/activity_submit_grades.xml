@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ignore="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/live_category_bg"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+    <FrameLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/colorPrimary">
+
+        <LinearLayout
+            android:id="@+id/llBack"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="left|center_horizontal"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/back"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_12" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="提交评论"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_15"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/submitGradesTv"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_gravity="center_horizontal|right"
+            android:gravity="center"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:text="@string/submit"
+            android:textColor="@color/bar_text_selected"
+            android:textSize="@dimen/text_size_12" />
+    </FrameLayout>
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+       android:layout_marginTop="15dp"
+       android:layout_marginLeft="12dp"
+       android:layout_marginRight="12dp"
+       android:background="@drawable/bg_rectangle_corner_solid_05"
+       >
+
+    <EditText
+        android:id="@+id/etRemark"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/submit_commit_input_bg"
+        android:gravity="top|left"
+        android:hint="@string/share_the_mood"
+        android:maxLength="150"
+        android:padding="10dp"
+        android:textColor="@color/category_item_count"
+        android:textColorHint="@color/category_item_count"
+        android:textSize="@dimen/text_size_13" />
+
+    <TextView
+        android:id="@+id/tvWords"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/submit_commit_input_bg"
+        android:gravity="right"
+        android:paddingBottom="10dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/category_item_count"
+        android:textSize="@dimen/text_size_10"
+        ignore:text="还剩150个字" />
+
+     <View
+         android:layout_width="match_parent"
+         android:layout_height="0.5dp"
+         android:background="@color/live_line"></View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/submit_commit_input_bg"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="20dp">
+
+        <ImageView
+            android:id="@+id/ivSubmitCamera"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/wanted_camera"
+           />
+
+        <ImageView
+            android:id="@+id/ivSubmitGrades"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="20dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/wanted_dashedframe"
+            />
+    </LinearLayout>
+   </LinearLayout>
+
+</LinearLayout>

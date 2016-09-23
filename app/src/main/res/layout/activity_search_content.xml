@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/live_category_bg"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -17,9 +18,12 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvSearch"
             android:layout_width="match_parent"
-
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp" />
 
     </LinearLayout>
+
+    <include layout="@layout/layout_exception_page" />
 
 </RelativeLayout>

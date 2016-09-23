@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="200dp"
+    android:background="@drawable/bg_rectangle_corner_hollow_03"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/dialog_register_off_iv"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="right"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bomb_box_delete" />
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="28dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp">
+
+        <ImageView
+            android:id="@+id/dialog_imageview_code_iv"
+            android:layout_width="90dp"
+            android:layout_height="28dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="14dp"></ImageView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/dialog_imageview_code_iv"
+            android:gravity="left|center_vertical"
+            android:text="请输入验证码"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_16" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/dialogRlCode"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_rectangle_corner_solid_05">
+
+        <ImageView
+            android:id="@+id/dialogIvClear"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="9dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/delete"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/dialog_register_et"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_toLeftOf="@id/dialogIvClear"
+            android:background="@null"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textColorHint="#b3b3b3"
+            android:textSize="@dimen/text_size_13" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/dialog_register_on_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:background="@drawable/dialog_button_pri"
+        android:gravity="center"
+        android:text="确定"
+        android:textColor="@color/hall_live_item_bg"
+        android:textSize="16sp" />
+</LinearLayout>

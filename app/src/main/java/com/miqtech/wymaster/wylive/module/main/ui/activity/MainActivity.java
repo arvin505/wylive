@@ -2,12 +2,15 @@ package com.miqtech.wymaster.wylive.module.main.ui.activity;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.miqtech.wymaster.wylive.R;
@@ -18,12 +21,15 @@ import com.miqtech.wymaster.wylive.entity.User;
 import com.miqtech.wymaster.wylive.module.main.ui.fragment.FragmentAttention;
 import com.miqtech.wymaster.wylive.module.main.ui.fragment.FragmentHallCategory;
 import com.miqtech.wymaster.wylive.module.main.ui.fragment.FragmentLiveCategory;
+import com.miqtech.wymaster.wylive.module.main.ui.fragment.FragmentMine;
+import com.miqtech.wymaster.wylive.module.screenrecorder.ui.ScreenRecorderActivity;
 
 import com.miqtech.wymaster.wylive.module.search.ui.activity.SearchActivity;
 import com.miqtech.wymaster.wylive.proxy.UserProxy;
 import com.miqtech.wymaster.wylive.utils.L;
 import com.miqtech.wymaster.wylive.utils.imageloader.AsyncImage;
 
+import org.feezu.liuli.timeselector.Utils.DateUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,18 +44,17 @@ import butterknife.OnClick;
 
 @LayoutId(R.layout.activity_main)
 public class MainActivity extends BaseAppCompatActivity {
+    private long lastClickBackTime = -1;
+    private static final int QUIT_CONFIRM_TIME = 3000;
 
     @BindView(R.id.ll_main_bar)
     LinearLayout llMainBar;
-    @BindView(R.id.img)
-    ImageView img;
-
     private int[] barSelected = new int[]{R.drawable.icon_bar_main_selected, R.drawable.icon_bar_category_selected,
             R.drawable.icon_bar_attention_selected, R.drawable.icon_bar_mine_selected};
     private int[] barUnselected = new int[]{R.drawable.icon_bar_main_unselected,
             R.drawable.icon_bar_category_unselected, R.drawable.icon_bar_attention_unselected, R.drawable.icon_bar_mine_unselected};
 
-    private Class[] classes = {FragmentHallCategory.class, FragmentLiveCategory.class, FragmentAttention.class, FragmentLiveCategory.class};
+    private Class[] classes = {FragmentHallCategory.class, FragmentLiveCategory.class, FragmentAttention.class, FragmentMine.class};
     /*@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +65,7 @@ public class MainActivity extends BaseAppCompatActivity {
 
     private List<Fragment> fragmentList;
     int mSelected = 0;
+    private int registerType;
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
@@ -68,18 +74,13 @@ public class MainActivity extends BaseAppCompatActivity {
             fragmentList.add(null);
         }
 
-        User user = UserProxy.getUser();
-
-        L.e(TAG, "---user-- null " + String.valueOf(user == null));
-        if (user != null)
-            L.e(TAG, "---user-- null " + user.toString());
-        HashMap params = new HashMap();
-        params.put("username", "13032111821");
-        params.put("password", "12345678");
-        sendHttpRequest(API.LOGIN, params);
-
-        AsyncImage.displayImage("uploads/2016/07/26/35e53c1d42504def8144860732c7a010.jpg", img);
         setSelectItem(0);
+//        registerType = getIntent().getIntExtra("registerType", -1);
+//        if(registerType == 1){
+//            setSelectItem(3);
+//        }else{
+//            setSelectItem(0);
+//        }
     }
 
     @OnClick({R.id.tv_main_bar_match, R.id.tv_main_bar_information, R.id.tv_main_bar_find, R.id.tv_main_bar_mine})
@@ -102,21 +103,7 @@ public class MainActivity extends BaseAppCompatActivity {
                 break;
             case R.id.tv_main_bar_mine:
                 setSelectItem(3);
-                jumpToActivity(SearchActivity.class);
                 break;
-        }
-    }
-
-
-    @Override
-    public void onSuccess(JSONObject object, String method) {
-        super.onSuccess(object, method);
-        Gson gson = new Gson();
-        try {
-            User user = gson.fromJson(object.getJSONObject("object").toString(), User.class);
-            UserProxy.setUser(user);
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
     }
 
@@ -134,7 +121,6 @@ public class MainActivity extends BaseAppCompatActivity {
             child.setCompoundDrawables(null, icon, null, null);
             child.setTextColor(textColor);
         }
-        showErrorView(false);
     }
 
     public void setSelectItem(int position) {
@@ -162,5 +148,22 @@ public class MainActivity extends BaseAppCompatActivity {
         }
         fragmentTransaction.commitAllowingStateLoss();
         changeLableState(position);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        UserProxy.removeAllListener();
+    }
+
+    @Override
+    public void onBackPressed() {
+        long curTime = System.currentTimeMillis();
+        if ((curTime - lastClickBackTime) >= QUIT_CONFIRM_TIME) {
+            lastClickBackTime = curTime;
+            showToast("再按一次退出");
+        } else {
+            finish();
+        }
     }
 }

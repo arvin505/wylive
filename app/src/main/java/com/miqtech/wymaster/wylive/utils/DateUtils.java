@@ -22,6 +22,10 @@ public class DateUtils {
     public static final long ONE_HOUR = ONE_MINUTE * 60;
     public static final long ONE_DAY = ONE_HOUR * 24;
 
+    final static SimpleDateFormat HHMM = new SimpleDateFormat("HH:mm");
+    final static SimpleDateFormat MMDDHHMM = new SimpleDateFormat("MM月dd日 HH:mm");
+    final static SimpleDateFormat YYYYMMDDHHMM = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
+
 
     /**
      * String 转换 Date
@@ -224,5 +228,46 @@ public class DateUtils {
         calendar.setTime(date);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         return new SimpleDateFormat("yyyy年MM月dd日 星期").format(date) + WEEK[dayOfWeek - 1];
+    }
+
+    public static String friendlyTime(String datetime) {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date time = null;
+        try {
+            time = dateFormat.parse(datetime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Date currentDate = new Date();
+        if (null == time) {
+            return "";
+        }
+        int ct = (int) ((System.currentTimeMillis() - time.getTime()) / 1000);
+        if (ct < 60) {
+            return "刚刚";
+        }
+        if (ct < 3600) {
+            return Math.max(ct / 60, 1) + "分钟前";
+        }
+        if (ct >= 3600 && ct < 86400) {
+            if (time.getDay() == currentDate.getDay()) {
+                return "今天" + HHMM.format(time);
+            }
+//			else {
+//				return "昨天" + HHMM.format(time);
+//			}
+
+        }
+//		if (ct >= 86400 && ct < 86400 * 2) { // 86400 * 30
+//
+//			return "昨天" + HHMM.format(time);
+//		}
+//
+        if (ct >= 86400 * 3 && ct < 31104000) { // 86400 * 30
+            return MMDDHHMM.format(time);
+        }
+
+        return YYYYMMDDHHMM.format(time);
     }
 }

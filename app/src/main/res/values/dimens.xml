@@ -23,7 +23,9 @@
     <dimen name="main_include_header_height">44dp</dimen>
     <dimen name="main_all_match_screen_height">33dp</dimen>
 
+
     <!--fontsize-->
+    <dimen name="text_size_9">9sp</dimen>
     <dimen name="text_size_10">10sp</dimen>
     <dimen name="text_size_11">11sp</dimen>
     <dimen name="text_size_12">12sp</dimen>

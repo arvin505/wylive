@@ -1,8 +1,13 @@
 package com.miqtech.wymaster.wylive.http;
 
+import android.print.PrintJob;
+import android.support.annotation.CallSuper;
+import android.support.v4.app.NavUtils;
+
 import com.android.volley.*;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.miqtech.wymaster.wylive.utils.DeviceUtils;
+import com.miqtech.wymaster.wylive.utils.L;
 
 import org.json.JSONObject;
 
@@ -15,15 +20,16 @@ import java.util.Map;
 public class NormalPostRequest extends com.android.volley.Request<JSONObject> {
     public Map<String, String> mParams;
     public Response.Listener<JSONObject> mListener;
-    public Response.ErrorListener mErrorListener;
+    private static final String TAG = "NormalPostRequest";
+    private ResponseListener mCallback;
+    private String mRequestTag;
 
-
-    public NormalPostRequest(String url, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener, Map<String, String> params) {
-
-        super(Method.POST, url, errorListener);
+    public NormalPostRequest(String url, Response.Listener<JSONObject> listener, ResponseListener callback, Map<String, String> params,String requestTag) {
+        super(Method.POST, url, null);
         this.mParams = params;
+        this.mCallback = callback;
         this.mListener = listener;
-        this.mErrorListener = errorListener;
+        this.mRequestTag = requestTag;
     }
 
     @Override
@@ -62,8 +68,9 @@ public class NormalPostRequest extends com.android.volley.Request<JSONObject> {
     @Override
     public void deliverError(VolleyError error) {
         super.deliverError(error);
-        if (mErrorListener != null) {
-            mErrorListener.onErrorResponse(error);
-        }
+        mCallback.onError(error.getMessage(),mRequestTag);
+        L.e(TAG,"---message"+error);
+        error.printStackTrace();
+
     }
 }

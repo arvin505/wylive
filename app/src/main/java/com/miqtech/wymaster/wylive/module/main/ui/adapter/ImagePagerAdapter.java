@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import com.miqtech.wymaster.wylive.R;
 import com.miqtech.wymaster.wylive.entity.Banner;
-import com.miqtech.wymaster.wylive.utils.L;
+import com.miqtech.wymaster.wylive.module.live.LiveRoomActivity;
+import com.miqtech.wymaster.wylive.module.live.PlayVideoActivity;
+import com.miqtech.wymaster.wylive.module.main.ui.activity.WebViewActivitay;
 import com.miqtech.wymaster.wylive.utils.imageloader.AsyncImage;
 
 import java.util.List;
@@ -55,10 +57,24 @@ public class ImagePagerAdapter<T> extends RecyclingPagerAdapter {
                 Intent intent = null;
                 switch (banner.getType()) {
                    //TODO 跳转测试
+                    case 1: //直播
+                        intent = new Intent(context, LiveRoomActivity.class);
+                        intent.putExtra("id", banner.getTarget()+"");
+                        context.startActivity(intent);
+                        break;
+                    case 2: //视频
+                        intent = new Intent(context, PlayVideoActivity.class);
+                        intent.putExtra("videoId", banner.getTarget()+"");
+                        context.startActivity(intent);
+                        break;
+                    case 3: //webview 页面
+                        intent = new Intent(context, WebViewActivitay.class);
+                        intent.putExtra("url", banner.getTarget());
+                        context.startActivity(intent);
+                        break;
                 }
             }
         });
-        L.e("ImagePagerAdapter", "getView VIEW_BANNER"+banner.getImg()+":::"+list.size());
         AsyncImage.displayImage(banner.getImg(), holder.imageView);
         //图片展示逻辑
         return convertView;
